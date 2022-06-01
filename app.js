@@ -1,10 +1,12 @@
 var navBar = `    
 <nav>
+<div id="nav-wrapper">
 <button class="icon" onclick="menuBar()">=</button>
 <button onclick="darkMode()">☾</button>
 <a href="index.html">Winston Purnomo</a>
 <a href="about.html">About</a>
 <a href="contact.html">Contact</a>
+</div>
 </nav>`;
 
 /** Set the dark mode to on, and save a cookie to remember preferences across pages. */
