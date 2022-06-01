@@ -13,10 +13,6 @@ body {
     width: 100%;
 }
 
-content {
-    max-width: 100%;
-}
-
 .toggle-mode {
     background-color: #000;
     color: #fff;
@@ -41,6 +37,7 @@ button {
     float: right;
     min-width: 5vw;
     padding: 10px 2px;
+    min-height: 36px;
     margin: 0px 8px;
     background-color: #eee;
     border: none;
