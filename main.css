@@ -2,6 +2,8 @@
 
 :root {
     --text: clamp(12px, 4em, 16px);
+    --text-small: calc(var(--text) * 0.8);
+    --nav-text: calc(var(--text) * 1.15);
 }
 
 body {
@@ -19,7 +21,8 @@ body {
 }
 
 #content {
-    margin: 0vw 8vw;
+    margin: 8vw calc(var(--text-small) * 3);
+    min-height: calc(100vh - (var(--nav-text) + 64px) - calc(var(--text-small) * 8));
 }
 
 /* -- NAVBAR -- */
@@ -28,9 +31,8 @@ nav {
     position: sticky;
     top: 0px;
     background-color: #333;
-    padding: 20px 0vw;
-    width: 100%;
-    font-size: 18px;
+    padding: 20px 20px;
+    font-size: var(--nav-text);
 }
 
 button {
@@ -48,9 +50,10 @@ button {
     border-radius: 10px;
 }
 
-#nav-wrapper {
+/* Ensure the nav content does not write to edge. */
+/* #nav-wrapper {
     margin: 0px 20px 0px;
-}
+} */
 
 nav a {
     float: left;
@@ -101,13 +104,8 @@ nav .icon {
 
 /* Footer */
 footer {
-    position: fixed;
-    bottom: 0px;
+    height: calc(var(--text-small) * 3);
     width: 100%;
-    height: 2vw;
-    padding: 8vw 0px 0px;
-}
-
-footer p {
-    padding: 0px 8vw;
+    padding: 0px 40px;
+    font-size: var(--text-small);
 }

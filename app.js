@@ -22,7 +22,7 @@ function darkMode() {
 }
 
 /** Check if dark mode is toggled on, and restore setting if enabled. */
-function restoreDarkMode() {
+function loadHeaderAndDarkMode() {
     document.getElementById('nav').insertAdjacentHTML('afterbegin', navBar);
     var element = document.body;
     const cookieValue = document.cookie.split('; ').find(row => row.startsWith('darkMode=')).split('=')[1];
