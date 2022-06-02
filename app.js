@@ -9,21 +9,24 @@ var navBar = `
 </div>
 </nav>`;
 
+var footer = `<footer>Copyright (c) 2022 Winston Purnomo</footer>`;
+
 /** Set the dark mode to on, and save a cookie to remember preferences across pages. */
 function darkMode() {
     var element = document.body;
     element.classList.toggle("toggle-mode");
     const cookieValue = document.cookie.split('; ').find(row => row.startsWith('darkMode=')).split('=')[1];
     if (cookieValue === 'false') {
-        document.cookie = 'darkMode=true;path="/"';
+        document.cookie = 'darkMode=true;path="/";sameSite = "none"';
     } else {
-        document.cookie = 'darkMode=false;path="/"';
+        document.cookie = 'darkMode=false;path="/";sameSite = "none"';
     }
 }
 
 /** Check if dark mode is toggled on, and restore setting if enabled. */
 function loadHeaderAndDarkMode() {
     document.getElementById('nav').insertAdjacentHTML('afterbegin', navBar);
+    document.getElementById('footer-wrap').insertAdjacentHTML('afterbegin', footer);
     var element = document.body;
     const cookieValue = document.cookie.split('; ').find(row => row.startsWith('darkMode=')).split('=')[1];
     if (cookieValue === 'true') {

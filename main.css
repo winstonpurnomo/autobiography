@@ -12,17 +12,22 @@ body {
     font-family: "Inter", sans-serif;
     font-size: var(--text);
     margin: 0vw;
-    width: 100%;
+    width: 100vw;
 }
 
 .toggle-mode {
-    background-color: #000;
+    background-color: #222;
     color: #fff;
 }
 
+.toggle-mode #content a {
+    color: #00ffff;
+}
+
 #content {
+    overflow: hidden;
     margin: 8vw calc(var(--text-small) * 3);
-    min-height: calc(100vh - (var(--nav-text) + 64px) - calc(var(--text-small) * 8));
+    min-height: calc(100vh - (var(--nav-text) + 72px) - calc(var(--text-small) * 8));
 }
 
 /* -- NAVBAR -- */
@@ -44,10 +49,11 @@ button {
     min-height: 36px;
     /* Margin to enforce distance between buttons */
     margin: 2px 8px;
-    background-color: #eee;
+    background: rgba(255, 255, 255, 0.0);
     /* Rounded effect */
-    border: none;
+    border: 1px solid #aaa;
     border-radius: 10px;
+    color: #fff;
 }
 
 /* Ensure the nav content does not write to edge. */
@@ -103,9 +109,13 @@ nav .icon {
 }
 
 /* Footer */
+#footer-wrap {
+    margin: 0px 40px;
+}
+
 footer {
     height: calc(var(--text-small) * 3);
     width: 100%;
-    padding: 0px 40px;
+    margin: 0px;
     font-size: var(--text-small);
 }
