@@ -80,7 +80,7 @@ button {
     margin: 2px 8px;
     background: rgba(255, 255, 255, 0.0);
     /* Rounded effect */
-    border: 1px solid #aaa;
+    border: 1.5px solid #aaa;
     border-radius: 10px;
     color: #fff;
 }

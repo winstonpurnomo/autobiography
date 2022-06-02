@@ -3,9 +3,9 @@ var navBar = `
 <div id="nav-wrapper">
 <button class="icon" onclick="menuBar()">=</button>
 <button onclick="darkMode()">☾</button>
-<a href="index.html">Winston Purnomo</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
+<a href="/pages/index.html">Winston Purnomo</a>
+<a href="/pages/about.html">About</a>
+<a href="/pages/contact.html">Contact</a>
 </div>
 </nav>`;
 
