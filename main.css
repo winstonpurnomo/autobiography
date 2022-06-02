@@ -5,12 +5,16 @@
     --text-small: calc(var(--text) * 0.8);
     --nav-text: calc(var(--text) * 1.15);
     --nav-height: calc(var(--nav-text) + 72px);
-    --foot-height: calc(var(--text-small) * 8)
+    --foot-height: calc(var(--text-small) * 8);
+    --num-boxes: calc(100vw / 256px);
+    --base-color: rgb(244, 244, 244);
+    --emphasis-color: #ddd;
+    --text-color: #000;
 }
 
 body {
-    background-color: rgb(244, 244, 244);
-    color: #000;
+    background-color: var(--base-color);
+    color: var(--text-color);
     font-family: "Inter", sans-serif;
     font-size: var(--text);
     margin: 0vw;
@@ -18,12 +22,39 @@ body {
 }
 
 .toggle-mode {
-    background-color: #222;
-    color: #fff;
+    --base-color: #222;
+    --emphasis-color: #444;
+    --text-color: #fff;
 }
 
 .toggle-mode #content a {
     color: #00ffff;
+}
+
+.portfolio-item {
+    display: flex;
+    background-color: var(--emphasis-color);
+    border: none;
+    padding: 8px;
+    border-radius: 20px;
+    margin: 20px 0px;
+}
+
+.portfolio-logo {
+    flex: 1;
+    min-width: 100px;
+    max-width: 160px;
+}
+
+.portfolio-logo img {
+    width: 60px;
+    display: block;
+    margin: 20px auto 0;
+    padding: auto;
+}
+
+.portfolio-content {
+    flex: 5;    
 }
 
 #content {
@@ -37,6 +68,37 @@ body {
     width: 200px;
 }
 
+.project-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 360px);
+    gap: 20px;
+    overflow: hidden;
+}
+
+.project-card {
+    background-color: var(--emphasis-color);
+    border: none;
+    padding: 8px;
+    border-radius: 20px;
+    max-width: 75vw;
+    transition: top ease 0.5s;
+}
+
+.project-card h1, .project-card h2, .project-card h3, .project-card h4, .project-card p {
+    text-align: center;
+}
+
+.project-card img {
+    border: none;
+    width: 240px;
+    display: block;
+    margin: 0px auto;
+}
+
+.project-card:hover {
+    top: -10px;
+}
+
 /* -- Social buttons style -- */
 .social-row {
     display: inline;
@@ -46,25 +108,25 @@ body {
 
 .social-button {
     display: inline-block;
-    background-color: #ddd;
+    background-color: var(--emphasis-color);
     border: none;
     border-radius: 10px;
     margin: 1vh 1vw 1vh 0;
     padding: 0px 8px;
 }
 
-.social-button p{
+.social-button p {
     display: inline-block;
     text-decoration: none;
     vertical-align: middle;
-    color: #000;
+    color: var(--text-color);
 }
 
 .fa {
     vertical-align: middle;
     text-decoration: none;
     padding-right: 8px;
-    color: #000;
+    color: var(--text-color);
 }
 
 /* -- Contact Form -- */
@@ -124,6 +186,11 @@ nav button {
     border: 1.5px solid #aaa;
     border-radius: 10px;
     color: #fff;
+}
+
+nav button i {
+    display: block;
+    margin: auto;
 }
 
 nav a {

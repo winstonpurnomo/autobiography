@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | Winston Purnomo</title>
     <link rel="stylesheet" type="text/css" href="/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='https://css.gg/dark-mode.css'>
+    <link rel='stylesheet' href='https://css.gg/menu-left.css'>
 </head>
 <body onload="loadHeaderAndDarkMode()">
     <script src="/app.js"></script>
@@ -29,22 +32,49 @@
         </ul>
         <br>
         <h1>Work</h1>
-        <h2>Apple</h2>
-        <h3>Software Engineer, Apple Pay (July 2022 - present)</h3>
-        <ul>
-            <li>Designed...</li>
-        </ul>
-        <h2>Shopee</h2>
-        <h3>Product Management and Software Development Intern (June 2021 - August 2021)</h3>
-        <ul>
-            <li>Designed...</li>
-            <li>Designed...</li>
-            <li>Designed...</li>
-        </ul>
-        <h3>Data Science Intern (June 2020 - September 2020)</h3>
-        <ul>
-            <li></li>
-        </ul>
+        <div class="portfolio-item">
+            <div class="portfolio-logo">
+                <img src="/static/img/AppleLogo.svg" alt="Apple Logo">
+            </div>
+            <div class="portfolio-content">
+                <h2>Apple</h2>
+                <h3>Software Engineer, Apple Pay (July 2022 - present)</h3>
+                <ul>
+                    <li>Designed...</li>
+                </ul>
+            </div>
+        </div>
+        <div class="portfolio-item">
+            <div class="portfolio-logo">
+                <img src="/static/img/ShopeeLogo.webp" alt="Apple Logo">
+            </div>
+            <div class="portfolio-content">
+                <h2>Shopee</h2>
+                <h3>Software Development and Product Management Intern (June 2021 - August 2021)</h3>
+                <ul>
+                    <li>Designed...</li>
+                </ul>
+                <h3>Data Science Intern (June 2020 - September 2020)</h3>
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            
+        </div>
+        <br>
+        <h1>Projects</h1>
+        <div class="project-gallery">
+            <div class="project-card">
+                <a href="https://github.com/winstonpurnomo/winremind"><h2>WinRemind</h2></a>
+                <p>Reminder app made in Swift.<br>2021</p>
+                <img src="https://camo.githubusercontent.com/65589f45af2afc6a9b866c3260daa2b773e85122c465095078cc40874e49b7e7/68747470733a2f2f692e706f7374696d672e63632f6b677052386a594e2f323032322d30362d30322d32332d30362d33392d696e2d58636f64652e706e67">
+            </div>
+            <div class="project-card">
+                <a href="https://github.com/winstonpurnomo/lrumrunruorupru/"><h2>LRUMRUNRUORUPRU</h2></a>
+                <p>LRU, MRU and clock cache replacement policy visualizer.<br>2022</p>
+                <img src="https://camo.githubusercontent.com/e7060d4df44c3b7fa922bfe6b3acee3dd43fa3dac85256a72d9e16bff307dbc9/68747470733a2f2f692e706f7374696d672e63632f4c35644b4b4d72782f323032322d30362d30322d32322d35382d32312d696e2d53696d756c61746f722e706e67">
+            </div>
+        </div>
     </div>
     <div id="footer-wrap"></div>
 </body>
