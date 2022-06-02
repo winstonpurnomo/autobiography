@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: #fff;
+    background-color: rgb(244, 244, 244);
     color: #000;
     font-family: "Inter", sans-serif;
     font-size: var(--text);
@@ -30,7 +30,36 @@ body {
     min-height: calc(100vh - (var(--nav-text) + 72px) - calc(var(--text-small) * 8));
 }
 
-/* -- NAVBAR -- */
+.social-row {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.social-button {
+    display: inline-block;
+    background-color: #ddd;
+    border: none;
+    border-radius: 10px;
+    margin: 1vh 1vw 1vh 0;
+    padding: 0px 8px;
+}
+
+.social-button p{
+    display: inline-block;
+    text-decoration: none;
+    vertical-align: middle;
+    color: #000;
+}
+
+.fa {
+    vertical-align: middle;
+    text-decoration: none;
+    padding-right: 8px;
+    color: #000;
+  }
+
+/* -- Navigation Bar. -- */
 nav {
     overflow: hidden;
     position: sticky;
@@ -55,11 +84,6 @@ button {
     border-radius: 10px;
     color: #fff;
 }
-
-/* Ensure the nav content does not write to edge. */
-/* #nav-wrapper {
-    margin: 0px 20px 0px;
-} */
 
 nav a {
     float: left;
