@@ -4,6 +4,8 @@
     --text: clamp(12px, 4em, 16px);
     --text-small: calc(var(--text) * 0.8);
     --nav-text: calc(var(--text) * 1.15);
+    --nav-height: calc(var(--nav-text) + 72px);
+    --foot-height: calc(var(--text-small) * 8)
 }
 
 body {
@@ -27,9 +29,15 @@ body {
 #content {
     overflow: hidden;
     margin: 4vh calc(var(--text-small) * 3);
-    min-height: calc(100vh - (var(--nav-text) + 72px) - calc(var(--text-small) * 8));
+    min-height: calc(100vh - var(--nav-height) - var(--foot-height) - 2vh);
 }
 
+#content .profile {
+    border-radius: 50%;
+    width: 200px;
+}
+
+/* -- Social buttons style -- */
 .social-row {
     display: inline;
     margin: 0;
@@ -57,7 +65,40 @@ body {
     text-decoration: none;
     padding-right: 8px;
     color: #000;
-  }
+}
+
+/* -- Contact Form -- */
+.form-group {
+    margin: 5px;
+    padding: 0;
+    width: 360px;
+    display: inline;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    margin: 1vh 20px 1vh 0;
+    padding: 0;
+}
+
+.form-group .col-md-6 {
+    display: inline;
+}
+
+.form-group .col-md-6 input {
+    width: 170px;
+    margin: 1vh 20px 1vh 0;
+    padding: 0;
+}
+
+input, textarea {
+    font-family: 'Inter' sans-serif;
+}
+
+::-webkit-input-placeholder { font-family: "Inter", sans-serif;}
+::-moz-placeholder { font-family: "Inter", sans-serif;}
+:-moz-placeholder { font-family: "Inter", sans-serif;}
+:-ms-input-placeholder { font-family: "Inter", sans-serif;}
 
 /* -- Navigation Bar. -- */
 nav {
@@ -69,7 +110,7 @@ nav {
     font-size: var(--nav-text);
 }
 
-button {
+nav button {
     /* Position on right */
     float: right;
     /* Width */
@@ -119,7 +160,10 @@ nav .icon {
         min-width: 50px;
     }
     
-    nav.responsive {position: relative;}
+    nav.responsive {
+        position: relative;
+    }
+
     nav.responsive .icon {
         position: sticky;
         right: 0;
@@ -132,7 +176,7 @@ nav .icon {
     }
 }
 
-/* Footer */
+/* -- Footer -- */
 #footer-wrap {
     margin: 0px 40px;
 }
@@ -141,5 +185,6 @@ footer {
     height: calc(var(--text-small) * 3);
     width: 100%;
     margin: 0px;
+    justify-content: center;
     font-size: var(--text-small);
 }

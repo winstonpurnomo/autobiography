@@ -4,7 +4,7 @@ var navBar = `
 <button class="icon" onclick="menuBar()">=</button>
 <button onclick="darkMode()">☾</button>
 <a href="/pages/index.html">Winston Purnomo</a>
-<a href="/pages/about.html">About</a>
+<a href="/pages/portfolio.html">Portfolio</a>
 <a href="/pages/contact.html">Contact</a>
 </div>
 </nav>`;
@@ -27,6 +27,11 @@ function darkMode() {
 function loadHeaderAndDarkMode() {
     document.getElementById('nav').insertAdjacentHTML('afterbegin', navBar);
     document.getElementById('footer-wrap').insertAdjacentHTML('afterbegin', footer);
+    var navbox = document.querySelector('nav');
+    var footbox = document.querySelector('footer');
+    var root = document.documentElement;
+    root.style.setProperty('--nav-height', navbox.offsetHeight + 'px');
+    root.style.setProperty('--footer-height', footbox.offsetHeight + 'px');
     var element = document.body;
     const cookieValue = document.cookie.split('; ').find(row => row.startsWith('darkMode=')).split('=')[1];
     if (cookieValue === 'true') {
