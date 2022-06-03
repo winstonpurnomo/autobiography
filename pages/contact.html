@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='https://css.gg/dark-mode.css'>
-    <link rel='stylesheet' href='https://css.gg/menu-left.css'>
+    <link rel='stylesheet' href='https://css.gg/menu-right.css'>
 </head>
 <body onload="loadHeaderAndDarkMode()">
     <script src="/app.js"></script>
@@ -16,7 +16,31 @@
     <div id="content">
         <h1>Contact Me</h1>
         <p>Use the form below to contact me for any reason. I am using this section to experiment with backend and PHP, so please forgive any mistakes!</p>
-
+        <div id="contact-form">
+            <form method="post" action="/tools/contactForm.php">
+                <div class="form-row">
+                    <div class="form-item">
+                        <label>Name</label><br>
+                        <input type="text" id="fname" placeholder="Your name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-item">
+                        <label>Email</label><br>
+                        <input type="text" id="email" placeholder="Your email" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-item">
+                        <label>Message</label><br>
+                        <textarea id="message" rows="3" placeholder="Your message" required></textarea>    
+                    </div>
+                </div>
+                <div>
+                    <input class="submit-button" type="submit" value="submit">
+                </div>
+            </form>
+        </div>
     </div>
     <div id="footer-wrap"></div>
 </body>

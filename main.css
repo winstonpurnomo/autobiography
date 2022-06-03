@@ -31,6 +31,18 @@ body {
     color: #00ffff;
 }
 
+#content {
+    overflow: hidden;
+    margin: 4vh calc(var(--text-small) * 3);
+    min-height: calc(100vh - var(--nav-height) - var(--foot-height) - 2vh);
+}
+
+#content .profile {
+    border-radius: 50%;
+    width: 200px;
+}
+
+/* -- Portfolio Gallery -- */
 .portfolio-item {
     display: flex;
     background-color: var(--emphasis-color);
@@ -57,17 +69,7 @@ body {
     flex: 5;    
 }
 
-#content {
-    overflow: hidden;
-    margin: 4vh calc(var(--text-small) * 3);
-    min-height: calc(100vh - var(--nav-height) - var(--foot-height) - 2vh);
-}
-
-#content .profile {
-    border-radius: 50%;
-    width: 200px;
-}
-
+/* -- Project Section -- */
 .project-gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, 360px);
@@ -130,31 +132,35 @@ body {
 }
 
 /* -- Contact Form -- */
-.form-group {
-    margin: 5px;
-    padding: 0;
-    width: 360px;
-    display: inline;
+
+.form-item label {
+    margin: 5px 0 5px 1px;
 }
 
-.form-group input, .form-group textarea {
-    width: 100%;
-    margin: 1vh 20px 1vh 0;
-    padding: 0;
-}
-
-.form-group .col-md-6 {
-    display: inline;
-}
-
-.form-group .col-md-6 input {
-    width: 170px;
-    margin: 1vh 20px 1vh 0;
-    padding: 0;
+.form-item input, .form-item textarea {
+    width: calc(100vw - var(--text-small) * 9);
+    margin: 5px 0 5px 1px;
+    padding: 2vh 2vw;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--emphasis-color);
 }
 
 input, textarea {
     font-family: 'Inter' sans-serif;
+    resize: none;
+}
+
+.submit-button {
+    display: inline-block;
+    background-color: var(--emphasis-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 10px;
+    height: 36px;
+    width: 80px;
+    margin: 1vh 0;
+    padding: auto 2vw;
 }
 
 ::-webkit-input-placeholder { font-family: "Inter", sans-serif;}

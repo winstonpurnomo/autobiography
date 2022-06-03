@@ -1,7 +1,7 @@
 var navBar = `    
 <nav>
 <div id="nav-wrapper">
-<button class="icon" onclick="menuBar()"><i class="gg-menu-left"></i></button>
+<button class="icon" onclick="menuBar()"><i class="gg-menu-right"></i></button>
 <button onclick="darkMode()"><i class="gg-dark-mode"></i></button>
 <a href="/pages/index.html">Winston Purnomo</a>
 <a href="/pages/portfolio.html">Portfolio</a>
