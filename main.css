@@ -132,7 +132,6 @@ body {
 }
 
 /* -- Contact Form -- */
-
 .form-item label {
     margin: 5px 0 5px 1px;
 }
@@ -169,7 +168,7 @@ input, textarea {
 :-ms-input-placeholder { font-family: "Inter", sans-serif;}
 
 /* -- Navigation Bar. -- */
-nav {
+#nav {
     overflow: hidden;
     position: sticky;
     top: 0px;
@@ -178,7 +177,7 @@ nav {
     font-size: var(--nav-text);
 }
 
-nav button {
+#nav button {
     /* Position on right */
     float: right;
     /* Width */
@@ -194,12 +193,12 @@ nav button {
     color: #fff;
 }
 
-nav button i {
+#nav button i {
     display: block;
     margin: auto;
 }
 
-nav a {
+#nav a {
     float: left;
     display: block;
     color: #fff;
@@ -208,41 +207,50 @@ nav a {
     padding: 10px 8px;
 }
 
-nav a:hover {
+#nav a:hover {
     color: #add8e6;
 }
 
-nav a.active {
+#nav a.active {
     background-color: #04AA6D;
     color: white;
 }
 
-nav .icon {
+#nav .icon {
     display: none;
 }
 
 @media screen and (max-width: 600px) {
+
     /* The first 2 children are the menu buttons! */
-    nav a:not(:nth-child(3)) {display: none;}
-    nav button.icon {
+    #nav a:not(:nth-child(3)) {display: none;}
+    #nav button.icon {
         float: right;
         display: block;
     }
 
-    nav button {
+    #nav button {
         min-width: 50px;
     }
+
+    #nav .unresponsive {
+        position: sticky;
+        transition-property: display;
+        transition-duration: 600ms;
+        transition-timing-function: ease-in-out;
+    }
     
-    nav.responsive {
+    #nav .responsive {
         position: relative;
     }
 
-    nav.responsive .icon {
+    #nav .responsive .icon {
         position: sticky;
         right: 0;
         top: 0;
     }
-    nav.responsive a {
+
+    #nav.responsive a {
         float: none;
         display: block;
         text-align: left;
