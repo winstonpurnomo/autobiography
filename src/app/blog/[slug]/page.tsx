@@ -11,8 +11,12 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function Page(props: { params: { slug: string } }) {
-  const { slug } = await props.params;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   const filePath = path.join(process.cwd(), "content", `${slug}.mdx`);
 
   if (!existsSync(filePath)) {
