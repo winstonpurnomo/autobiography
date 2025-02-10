@@ -1,0 +1,49 @@
+var navBar = `
+<button class="icon" onclick="menuBar()"><i class="gg-menu-right"></i></button>
+<button onclick="darkMode()"><i class="gg-dark-mode"></i></button>
+<a href="/pages/index.html">Winston Purnomo</a>
+<a href="/pages/portfolio.html">Portfolio</a>
+<a href="/pages/contact.html">Contact</a>
+`
+
+var footer = `<footer>Copyright (c) 2022 Winston Purnomo</footer>`;
+
+/** Set the dark mode to on, and save a cookie to remember preferences across pages. */
+function darkMode() {
+    var element = document.body;
+    element.classList.toggle("toggle-mode");
+    const cookieValue = document.cookie.split('; ').find(row => row.startsWith('darkMode=')).split('=')[1];
+    if (cookieValue === 'false') {
+        document.cookie = 'darkMode=true;path="/";sameSite = "none"';
+    } else {
+        document.cookie = 'darkMode=false;path="/";sameSite = "none"';
+    }
+}
+
+/** Check if dark mode is toggled on, and restore setting if enabled. */
+function loadHeaderAndDarkMode() {
+    document.getElementById('nav').insertAdjacentHTML('afterbegin', navBar);
+    document.getElementById('footer-wrap').insertAdjacentHTML('afterbegin', footer);
+    var navbox = document.querySelector('#nav');
+    var footbox = document.querySelector('footer');
+    var root = document.documentElement;
+    root.style.setProperty('--nav-height', navbox.offsetHeight + 'px');
+    root.style.setProperty('--footer-height', footbox.offsetHeight + 'px');
+    var element = document.body;
+    if (document.cookie != undefined) {
+        const cookieValue = document.cookie.split('; ').find(row => row.startsWith('darkMode=')).split('=')[1];
+    }
+    if (cookieValue === 'true') {
+        element.classList.toggle("toggle-mode");
+    }
+}
+
+function menuBar() {
+    var x = document.querySelector('#nav');
+    void x.offsetHeight;
+    if (x.className != "responsive") {
+        x.className = "responsive";
+    } else {
+        x.className = "unresponsive";
+    }
+}

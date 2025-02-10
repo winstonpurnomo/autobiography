@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --text: clamp(12px, 4em, 16px);
+    --text-small: calc(var(--text) * 0.8);
+    --nav-text: calc(var(--text) * 1.15);
+    --nav-height: calc(var(--nav-text) + 72px);
+    --foot-height: calc(var(--text-small) * 8);
+    --num-boxes: calc(100vw / 256px);
+    --base-color: rgb(244, 244, 244);
+    --emphasis-color: #ddd;
+    --text-color: #000;
+}
+
+body {
+    background-color: var(--base-color);
+    color: var(--text-color);
+    font-family: "Inter", sans-serif;
+    font-size: var(--text);
+    margin: 0vw;
+    width: 100vw;
+}
+
+.toggle-mode {
+    --base-color: #222;
+    --emphasis-color: #444;
+    --text-color: #fff;
+}
+
+.toggle-mode #content a {
+    color: #00ffff;
+}
+
+#content {
+    overflow: hidden;
+    margin: 4vh calc(var(--text-small) * 3);
+    min-height: calc(100vh - var(--nav-height) - var(--foot-height) - 2vh);
+}
+
+#content .profile {
+    border-radius: 50%;
+    width: 200px;
+}
+
+/* -- Portfolio Gallery -- */
+.portfolio-item {
+    display: flex;
+    background-color: var(--emphasis-color);
+    border: none;
+    padding: 8px;
+    border-radius: 20px;
+    margin: 20px 0px;
+}
+
+.portfolio-logo {
+    flex: 1;
+    min-width: 100px;
+    max-width: 160px;
+}
+
+.portfolio-logo img {
+    width: 60px;
+    display: block;
+    margin: 20px auto 0;
+    padding: auto;
+}
+
+.portfolio-content {
+    flex: 5;    
+}
+
+/* -- Project Section -- */
+.project-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 360px);
+    gap: 20px;
+    overflow: hidden;
+}
+
+.project-card {
+    background-color: var(--emphasis-color);
+    border: none;
+    padding: 8px;
+    border-radius: 20px;
+    max-width: 75vw;
+    transition: top ease 0.5s;
+}
+
+.project-card h1, .project-card h2, .project-card h3, .project-card h4, .project-card p {
+    text-align: center;
+}
+
+.project-card img {
+    border: none;
+    width: 240px;
+    display: block;
+    margin: 0px auto;
+}
+
+.project-card:hover {
+    top: -10px;
+}
+
+/* -- Social buttons style -- */
+.social-row {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.social-button {
+    display: inline-block;
+    background-color: var(--emphasis-color);
+    border: none;
+    border-radius: 10px;
+    margin: 1vh 1vw 1vh 0;
+    padding: 0px 8px;
+}
+
+.social-button p {
+    display: inline-block;
+    text-decoration: none;
+    vertical-align: middle;
+    color: var(--text-color);
+}
+
+.fa {
+    vertical-align: middle;
+    text-decoration: none;
+    padding-right: 8px;
+    color: var(--text-color);
+}
+
+/* -- Contact Form -- */
+.form-item label {
+    margin: 5px 0 5px 1px;
+}
+
+.form-item input, .form-item textarea {
+    width: calc(100vw - var(--text-small) * 9);
+    margin: 5px 0 5px 1px;
+    padding: 2vh 2vw;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--emphasis-color);
+}
+
+input, textarea {
+    font-family: 'Inter' sans-serif;
+    resize: none;
+}
+
+.submit-button {
+    display: inline-block;
+    background-color: var(--emphasis-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 10px;
+    height: 36px;
+    width: 80px;
+    margin: 1vh 0;
+    padding: auto 2vw;
+}
+
+::-webkit-input-placeholder { font-family: "Inter", sans-serif;}
+::-moz-placeholder { font-family: "Inter", sans-serif;}
+:-moz-placeholder { font-family: "Inter", sans-serif;}
+:-ms-input-placeholder { font-family: "Inter", sans-serif;}
+
+/* -- Navigation Bar. -- */
+#nav {
+    overflow: hidden;
+    position: sticky;
+    top: 0px;
+    background-color: #333;
+    padding: 20px 20px;
+    font-size: var(--nav-text);
+}
+
+#nav button {
+    /* Position on right */
+    float: right;
+    /* Width */
+    min-width: 5vw;
+    /* Height, enforce same size */
+    min-height: 36px;
+    /* Margin to enforce distance between buttons */
+    margin: 2px 8px;
+    background: rgba(255, 255, 255, 0.0);
+    /* Rounded effect */
+    border: 1.5px solid #aaa;
+    border-radius: 10px;
+    color: #fff;
+}
+
+#nav button i {
+    display: block;
+    margin: auto;
+}
+
+#nav a {
+    float: left;
+    display: block;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 8px;
+}
+
+#nav a:hover {
+    color: #add8e6;
+}
+
+#nav a.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
+#nav .icon {
+    display: none;
+}
+
+@media screen and (max-width: 600px) {
+
+    /* The first 2 children are the menu buttons! */
+    #nav a:not(:nth-child(3)) {display: none;}
+    #nav button.icon {
+        float: right;
+        display: block;
+    }
+
+    #nav button {
+        min-width: 50px;
+    }
+
+    #nav .unresponsive {
+        position: sticky;
+        transition-property: display;
+        transition-duration: 600ms;
+        transition-timing-function: ease-in-out;
+    }
+    
+    #nav .responsive {
+        position: relative;
+    }
+
+    #nav .responsive .icon {
+        position: sticky;
+        right: 0;
+        top: 0;
+    }
+
+    #nav.responsive a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+}
+
+/* -- Footer -- */
+#footer-wrap {
+    margin: 0px 40px;
+}
+
+footer {
+    height: calc(var(--text-small) * 3);
+    width: 100%;
+    margin: 0px;
+    justify-content: center;
+    font-size: var(--text-small);
+}
