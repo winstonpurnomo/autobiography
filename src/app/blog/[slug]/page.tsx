@@ -3,7 +3,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
 import { notFound } from "next/navigation";
-import MDXRemoteClientWrapper from "@/components/mdx-remote-client";
+import MDXRemoteClientWrapper from "@/components/mdx-remote-client-wrapper";
 
 export async function generateStaticParams() {
   const files = readdirSync(path.join(process.cwd(), "src/content"));
@@ -37,7 +37,7 @@ export default async function Page({
 
   return (
     <div>
-      <h1>{data.title || slug}</h1>
+      {/* <h1>{data.title || slug}</h1> */}
       <MDXRemoteClientWrapper mdxSource={mdxSource} />
     </div>
   );
