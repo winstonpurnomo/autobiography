@@ -47,14 +47,14 @@ export function Navigation() {
             <span>Blog</span>
           </Link>
           <Link
-            href="/experience"
+            href="/portfolio"
             className={`text-sm ${
-              pathname === "/experience"
+              pathname === "/portfolio"
                 ? "text-blue-500"
                 : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
             }`}
           >
-            <span>Experience</span>
+            <span>Portfolio</span>
           </Link>
         </nav>
         <button
