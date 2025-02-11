@@ -26,7 +26,7 @@ export function Navigation() {
   }
 
   return (
-    <header className="flex items-center justify-between py-8 font-serif">
+    <nav className="flex items-center justify-between py-8 font-serif">
       <Link
         href="/"
         className="border border-blue-500 px-4 py-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950"
@@ -70,6 +70,6 @@ export function Navigation() {
           <span className="sr-only">Toggle theme</span>
         </button>
       </div>
-    </header>
+    </nav>
   );
 }

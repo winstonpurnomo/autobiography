@@ -211,38 +211,44 @@
   }
 }
 
-body {
-  font-family: var(--body-font);
-  background-color: var(--background-color);
-  color: var(--primary-color);
-  line-height: 1.6;
-  margin: 0;
-  padding: 20px; /* Add some padding around the content */
-}
+@layer base {
+  body {
+    font-family: var(--body-font);
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px; /* Add some padding around the content */
+  }
 
-h1, h2, h3, h4 {
-  font-family: var(--serif-font);
-  color: var(--primary-color); /* Headings inherit primary color */
-  margin-bottom: 15px; /* Consistent margin for headings */
-}
+  h1, h2, h3, h4 {
+    font-family: var(--serif-font);
+    color: var(--primary-color); /* Headings inherit primary color */
+    margin-bottom: 15px; /* Consistent margin for headings */
+  }
 
-h1 {
-  font-size: 2.5rem; /* Adjust sizes as needed */
-  font-weight: 700; /* Or 600 for slightly less bold */
-  line-height: 1.2;
-}
+  h1 {
+    font-size: 2.5rem; /* Adjust sizes as needed */
+    font-weight: 700; /* Or 600 for slightly less bold */
+    line-height: 1.2;
+  }
 
-h2 {
-  font-size: 2rem;
-  font-weight: 600;
-}
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+  }
 
-h3 {
-  font-size: 1.75rem;
-  font-weight: 600;
-}
+  h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
 
-h4 {
-  font-size: 1.5rem;
-  font-weight: 600;
+  h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  a {
+    @apply underline;
+  }
 }
