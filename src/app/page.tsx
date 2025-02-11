@@ -36,13 +36,21 @@ export default function Home() {
       >
         <Link href="https://www.linkedin.com/in/wpurnomo/">
           <Avatar>
-            <AvatarImage src="linkedin.svg" alt="LinkedIn" />
+            <AvatarImage
+              src="linkedin.svg"
+              alt="LinkedIn"
+              className="dark:invert"
+            />
             <AvatarFallback>LinkedIn</AvatarFallback>
           </Avatar>
         </Link>
         <Link href="https://github.com/winston-purnomo">
           <Avatar>
-            <AvatarImage src="github.svg" alt="GitHub" />
+            <AvatarImage
+              src="github.svg"
+              alt="GitHub"
+              className="dark:invert"
+            />
             <AvatarFallback>GitHub</AvatarFallback>
           </Avatar>
         </Link>
