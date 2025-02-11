@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import Link from "next/link";
 
 export default async function BlogListPage() {
-  const contentDir = path.join(process.cwd(), "content");
+  const contentDir = path.join(process.cwd(), "src/content");
   const files = readdirSync(contentDir);
 
   const posts = files

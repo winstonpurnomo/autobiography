@@ -1,11 +1,12 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
-import MDXRemoteClient from "@/components/mdx-remote-client";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
+import { notFound } from "next/navigation";
+import MDXRemoteClientWrapper from "@/components/mdx-remote-client";
 
 export async function generateStaticParams() {
-  const files = readdirSync(path.join(process.cwd(), "content"));
+  const files = readdirSync(path.join(process.cwd(), "src/content"));
   return files.map((file) => ({
     slug: file.replace(/\.mdx?$/, ""),
   }));
@@ -16,11 +17,18 @@ export default async function Page({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  // Wrap params in Promise.resolve so that awaiting it matches Next.js’ expected type.
   const { slug } = await params;
-  const filePath = path.join(process.cwd(), "content", `${slug}.mdx`);
+
+  if (!slug) {
+    // Instead of returning a 404 element, use notFound() so Next.js shows the 404 page.
+    notFound();
+  }
+
+  const filePath = path.join(process.cwd(), "src/content", `${slug}.mdx`);
 
   if (!existsSync(filePath)) {
-    return <h1>404 - Page Not Found</h1>;
+    notFound();
   }
 
   const fileContent = readFileSync(filePath, "utf-8");
@@ -30,7 +38,7 @@ export default async function Page({
   return (
     <div>
       <h1>{data.title || slug}</h1>
-      <MDXRemoteClient mdxSource={mdxSource} />
+      <MDXRemoteClientWrapper mdxSource={mdxSource} />
     </div>
   );
 }
