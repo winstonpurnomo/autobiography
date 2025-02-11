@@ -1,15 +1,18 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
-import matter from "gray-matter";
-import { serialize } from "next-mdx-remote/serialize";
 import { notFound } from "next/navigation";
-import MDXRemoteClientWrapper from "@/components/mdx-remote-client-wrapper";
+import { compileMDX } from "next-mdx-remote/rsc";
+import { useMDXComponents } from "@/mdx-components";
 
 export async function generateStaticParams() {
   const files = readdirSync(path.join(process.cwd(), "src/content"));
   return files.map((file) => ({
     slug: file.replace(/\.mdx?$/, ""),
   }));
+}
+
+interface Frontmatter {
+  title: string;
 }
 
 export default async function Page({
@@ -32,13 +35,15 @@ export default async function Page({
   }
 
   const fileContent = readFileSync(filePath, "utf-8");
-  const { content, data } = matter(fileContent);
-  const mdxSource = await serialize(content);
+  const data = await compileMDX<Frontmatter>({
+    source: fileContent,
+    options: {
+      parseFrontmatter: true,
+    },
+    components: useMDXComponents({}),
+  });
 
   return (
-    <div>
-      {/* <h1>{data.title || slug}</h1> */}
-      <MDXRemoteClientWrapper mdxSource={mdxSource} />
-    </div>
+    <div className="max-w-[80rem] px-6 md:px-12 mx-auto">{data.content}</div>
   );
 }
