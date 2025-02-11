@@ -31,7 +31,8 @@ export function Navigation() {
         href="/"
         className="border border-blue-500 px-4 py-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950"
       >
-        winston/purnomo
+        <span className="sm:hidden">w/p</span>
+        <span className="hidden sm:inline">winston/purnomo</span>
       </Link>
       <div className="flex items-center gap-8">
         <nav className="flex gap-8">
@@ -43,7 +44,7 @@ export function Navigation() {
                 : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
             }`}
           >
-            Blog
+            <span>Blog</span>
           </Link>
           <Link
             href="/experience"
@@ -53,7 +54,7 @@ export function Navigation() {
                 : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
             }`}
           >
-            Experience
+            <span>Experience</span>
           </Link>
         </nav>
         <button
