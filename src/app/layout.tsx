@@ -1,11 +1,11 @@
-import { Inter } from "next/font/google";
+import { Gabarito, Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import "./globals.css";
 import type React from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+const gabarito = Gabarito({ subsets: ["latin"] });
 
 export const metadata = {
   title: "winston/purnomo",
@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${gabarito.className} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -28,7 +28,9 @@ export default function RootLayout({
         >
           <div className="flex min-h-screen flex-col px-6">
             <Navigation />
-            <main className="flex-1 py-8">{children}</main>
+            <main className="flex-1 py-8">
+              <div className="max-w-md mx-auto">{children}</div>
+            </main>
             <Footer />
           </div>
         </ThemeProvider>

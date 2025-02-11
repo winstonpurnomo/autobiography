@@ -11,6 +11,9 @@
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --min-width-screen: 99vw;
+  --min-height-screen: 95svh;
 }
 
 /*

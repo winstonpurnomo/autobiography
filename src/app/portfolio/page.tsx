@@ -7,7 +7,7 @@ import {
 
 export default function Portfolio() {
   return (
-    <div className="max-w-md mx-auto">
+    <div>
       <h1>Portfolio</h1>
       <h2>Work Experience</h2>
       <Accordion type="multiple">
