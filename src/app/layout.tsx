@@ -29,7 +29,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Providers>
-            <div className="flex min-h-screen flex-col px-6">
+            <div className="flex min-h-screen flex-col">
               <Navigation />
               <main className="flex-1 py-8">
                 <div className="max-w-md mx-auto">{children}</div>

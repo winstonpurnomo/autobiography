@@ -251,4 +251,6 @@
   a {
     @apply underline;
   }
+
+  body { @apply !min-w-full; }
 }

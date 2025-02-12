@@ -2,9 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Moon, Sun } from "lucide-react";
+import { MenuIcon, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "./ui/drawer";
+import { Button } from "./ui/button";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -26,7 +35,7 @@ export function Navigation() {
   }
 
   return (
-    <nav className="flex items-center justify-between py-8 font-serif">
+    <header className="flex items-center justify-between py-8 font-serif">
       <Link
         href="/"
         className="border border-blue-500 px-4 py-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950"
@@ -35,37 +44,86 @@ export function Navigation() {
         <span className="hidden sm:inline">winston/purnomo</span>
       </Link>
       <div className="flex items-center gap-8">
-        <nav className="flex gap-8">
-          <Link
-            href="/blog"
-            className={`text-sm ${
-              pathname === "/blog"
-                ? "text-blue-500"
-                : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
-            }`}
-          >
-            <span>Blog</span>
-          </Link>
-          <Link
-            href="/portfolio"
-            className={`text-sm ${
-              pathname === "/portfolio"
-                ? "text-blue-500"
-                : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
-            }`}
-          >
-            <span>Portfolio</span>
-          </Link>
-          <Link
-            href="/contact"
-            className={`text-sm ${
-              pathname === "/contact"
-                ? "text-blue-500"
-                : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
-            }`}
-          >
-            <span>Contact</span>
-          </Link>
+        <nav className="flex">
+          <Drawer direction="right" shouldScaleBackground={false}>
+            <DrawerTrigger asChild>
+              <Button variant="outline" size="icon" className="lg:hidden">
+                <MenuIcon />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent>
+              <div className="hidden">
+                <DrawerHeader>
+                  <DrawerTitle>Menu</DrawerTitle>
+                </DrawerHeader>
+              </div>
+              <div className="flex flex-col gap-4 py-6">
+                <Link
+                  href="/blog"
+                  className={`px-6 ${
+                    pathname === "/blog"
+                      ? "text-blue-500"
+                      : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+                  }`}
+                >
+                  <span>Blog</span>
+                </Link>
+                <Link
+                  href="/portfolio"
+                  className={`px-6 ${
+                    pathname === "/portfolio"
+                      ? "text-blue-500"
+                      : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+                  }`}
+                >
+                  <span>Portfolio</span>
+                </Link>
+                <Link
+                  href="/contact"
+                  className={`px-6 ${
+                    pathname === "/contact"
+                      ? "text-blue-500"
+                      : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+                  }`}
+                >
+                  <span>Contact</span>
+                </Link>
+              </div>
+            </DrawerContent>
+          </Drawer>
+          <div className="hidden lg:block">
+            <Link
+              href="/blog"
+              className={`text-sm px-4 ${
+                pathname === "/blog"
+                  ? "text-blue-500"
+                  : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+              }`}
+            >
+              <span>Blog</span>
+            </Link>
+            <Link
+              href="/portfolio"
+              className={`text-sm px-4 ${
+                pathname === "/portfolio"
+                  ? "text-blue-500"
+                  : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+              }`}
+            >
+              <span>Portfolio</span>
+            </Link>
+            <Link
+              href="/contact"
+              className={`text-sm px-4 ${
+                pathname === "/contact"
+                  ? "text-blue-500"
+                  : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+              }`}
+            >
+              <span>Contact</span>
+            </Link>
+          </div>
         </nav>
         <button
           type="button"
@@ -80,6 +138,6 @@ export function Navigation() {
           <span className="sr-only">Toggle theme</span>
         </button>
       </div>
-    </nav>
+    </header>
   );
 }
