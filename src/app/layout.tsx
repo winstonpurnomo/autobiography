@@ -4,6 +4,8 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import "./globals.css";
 import type React from "react";
+import { Providers } from "./providers";
+import { Toaster } from "sonner";
 
 const gabarito = Gabarito({ subsets: ["latin"] });
 
@@ -26,13 +28,17 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <div className="flex min-h-screen flex-col px-6">
-            <Navigation />
-            <main className="flex-1 py-8">
-              <div className="max-w-md mx-auto">{children}</div>
-            </main>
-            <Footer />
-          </div>
+          <Providers>
+            <div className="flex min-h-screen flex-col px-6">
+              <Navigation />
+              <main className="flex-1 py-8">
+                <div className="max-w-md mx-auto">{children}</div>
+              </main>
+              <Toaster />
+              <Footer />
+            </div>
+          </Providers>
+          r
         </ThemeProvider>
       </body>
     </html>

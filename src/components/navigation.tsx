@@ -56,6 +56,16 @@ export function Navigation() {
           >
             <span>Portfolio</span>
           </Link>
+          <Link
+            href="/contact"
+            className={`text-sm ${
+              pathname === "/contact"
+                ? "text-blue-500"
+                : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+            }`}
+          >
+            <span>Contact</span>
+          </Link>
         </nav>
         <button
           type="button"
