@@ -5,14 +5,7 @@ import { usePathname } from "next/navigation";
 import { MenuIcon, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "./ui/drawer";
+import { Drawer } from "@geist-ui/core";
 import { Button } from "./ui/button";
 
 export function Navigation() {
@@ -30,6 +23,8 @@ export function Navigation() {
     console.log("Theme set to:", theme === "light" ? "dark" : "light");
   };
 
+  const [drawer, setDrawer] = useState(false);
+
   if (!mounted) {
     return null;
   }
@@ -45,52 +40,54 @@ export function Navigation() {
       </Link>
       <div className="flex items-center gap-8">
         <nav className="flex">
-          <Drawer direction="right" shouldScaleBackground={false}>
-            <DrawerTrigger asChild>
-              <Button variant="outline" size="icon" className="lg:hidden">
-                <MenuIcon />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </DrawerTrigger>
-            <DrawerContent>
-              <div className="hidden">
-                <DrawerHeader>
-                  <DrawerTitle>Menu</DrawerTitle>
-                </DrawerHeader>
-              </div>
-              <div className="flex flex-col gap-4 py-6">
-                <Link
-                  href="/blog"
-                  className={`px-6 ${
-                    pathname === "/blog"
-                      ? "text-blue-500"
-                      : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
-                  }`}
-                >
-                  <span>Blog</span>
-                </Link>
-                <Link
-                  href="/portfolio"
-                  className={`px-6 ${
-                    pathname === "/portfolio"
-                      ? "text-blue-500"
-                      : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
-                  }`}
-                >
-                  <span>Portfolio</span>
-                </Link>
-                <Link
-                  href="/contact"
-                  className={`px-6 ${
-                    pathname === "/contact"
-                      ? "text-blue-500"
-                      : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
-                  }`}
-                >
-                  <span>Contact</span>
-                </Link>
-              </div>
-            </DrawerContent>
+          <Button
+            variant="outline"
+            size="icon"
+            className="lg:hidden"
+            onClick={() => setDrawer(true)}
+          >
+            <MenuIcon />
+            <span className="sr-only">Open menu</span>
+          </Button>
+          <Drawer
+            placement="bottom"
+            visible={drawer}
+            onClose={() => setDrawer(false)}
+            onContentClick={() => setDrawer(false)}
+          >
+            <div className="flex flex-col gap-12 py-6">
+              <Drawer.Title>Menu</Drawer.Title>
+              <Link
+                href="/blog"
+                className={`px-6 ${
+                  pathname === "/blog"
+                    ? "text-blue-500"
+                    : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+                }`}
+              >
+                <span>Blog</span>
+              </Link>
+              <Link
+                href="/portfolio"
+                className={`px-6 ${
+                  pathname === "/portfolio"
+                    ? "text-blue-500"
+                    : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+                }`}
+              >
+                <span>Portfolio</span>
+              </Link>
+              <Link
+                href="/contact"
+                className={`px-6 ${
+                  pathname === "/contact"
+                    ? "text-blue-500"
+                    : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+                }`}
+              >
+                <span>Contact</span>
+              </Link>
+            </div>
           </Drawer>
           <div className="hidden lg:block">
             <Link
