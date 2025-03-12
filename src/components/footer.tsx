@@ -1,3 +1,5 @@
+"use client";
+
 export function Footer() {
   const today = new Date();
   const days = [
