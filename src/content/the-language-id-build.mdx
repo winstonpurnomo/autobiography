@@ -1,0 +1,368 @@
+---
+
+title: "The Programming Language I'd Build"
+date: "2025-07-26"
+tags:
+- discussion
+- technical
+
+---
+
+As someone who spends significant time programming, I've developed strong opinions about what makes an ideal language. If I were to design a programming language today, here's how I'd approach several critical aspects of its design.
+
+## Go-style Imports
+
+I love Go's import system and its clarity and predictability. Go requires a straightforward import declaration at the top of each file, clearly listing every external package being used. There is objectively a correct way to import a Go package, and it is the only way.
+
+<Code language="go">
+```go
+import (
+  "sync"
+  "fmt"
+)
+
+var x sync.Map
+fmt.Println(x)
+```
+</Code>
+
+Contrast this clarity with Rust's ambiguity. Rust allows multiple ways to import names, creating unnecessary complexity and cognitive load.
+
+<Code language="rust">
+```rust
+use std::sync;
+let x: sync::Arc<i32> = sync::Arc::new(5);
+```
+</Code>
+
+<Code language="rust">
+```rust
+use std::sync::Arc;
+let x: Arc<i32> = Arc::new(5);
+```
+</Code>
+
+Or even no explicit import:
+
+<Code language="rust">
+```rust
+let x: std::sync::Arc<i32> = std::sync::Arc::new(5);
+```
+</Code>
+
+This flexibility might seem beneficial initially but introduces significant mental overhead when navigating unfamiliar codebases.
+
+Swift takes an extreme opposite approach, implicitly importing entire namespaces, obscuring the origins of names:
+
+<Code language="swift">
+```swift
+import X
+import Y
+
+let z: Name = ... // Where did Name originate?
+```
+</Code>
+
+I think the reason why Apple built it this way is Apple products are built in many separate teams across many different repos. Codebases are relatively small, and if you stay on the same team, you'll be working on the same repo, so you mostly know where names are coming from.
+
+In large-scale projects, particularly at monorepo scale such as Meta's, this quickly becomes untenable, forcing developers to excessively rely on IDE features for basic navigation. Therefore, a language I'd build would embrace the simplicity and explicitness of Go's import system.
+
+## Errors as Values (Result Types)
+
+Traditional `try-catch` blocks often lead to deeply nested and complex error-handling code. These constructs are cumbersome, verbose, and obscure control flow.
+
+A better alternative is result types, which explicitly represent success or failure, allowing errors to be handled clearly:
+
+<Code language="go">
+```go
+result, err := getThing()
+if err != nil {
+    return nil, fmt.Errorf("getThing failed: %w", err)
+}
+```
+</Code>
+
+I would make one tiny change though -- While Golang’s explicit error returns are straightforward, tagged union enums offer a more ergonomic and type-safe approach. They provide clear control flow, simpler handling patterns, and reduce boilerplate.
+
+## Tagged Union Enums
+
+Tagged union enums succinctly express mutually exclusive states or types. Languages like Rust and Swift leverage them effectively, clearly handling distinct cases:
+
+<Code language="swift">
+```swift
+enum NetworkResponse {
+    case success(Data)
+    case error(String)
+    case timeout
+}
+
+async func getThing() -> NetworkResponse {
+    if noInternet() {
+        return .error("No Internet")
+    }
+    return fetch()
+}
+
+switch response {
+    case .success(let data):
+        handle(data)
+    case .error(let err):
+        handleError(err)
+    case .timeout:
+        handleTimeout()
+}
+```
+</Code>
+
+Tagged unions enhance robustness by explicitly requiring each state to be handled, reducing bugs and increasing maintainability. My ideal language would emphasize these enums to enhance clarity and safety.
+
+## Shapes and Structures (No Subclassing)
+
+I prefer a clear separation between data representation and behavior encapsulation, leveraging Rust and Swift's one-implementation-per-type principle, without subclassing.
+
+### Shapes
+
+Shapes represent pure data, otherwise known as Data Transfer Objects (DTOs). They are portable, serializable, and testable, resembling Swift structs or Rust structs. We can also derive common operations like `Debug`, `Serialize` and `Deserialize`, and `Shapes` are clone-able by default. They're not supposed to have anything inherently uncopy-able.
+
+<Code language="mylang">
+```go
+@[derive(Codable<Json>)]
+shape AppConfig {
+    db_conn: string
+    api_key: string
+}
+```
+</Code>
+
+Shapes are ideal for configurations, DTOs, and persistent storage due to inherent encodability and decodability.
+
+### Structures
+
+Structures encapsulate behavior and internal state, but without subclassing—achieving reuse and specialization via extensions (Swift) or impl blocks (Rust):
+
+<Code language="rust">
+```rust
+struct ApplicationState {
+    db: postgres::Conn
+    auth: thirdpartyservice::Auth
+}
+
+impl ApplicationState {
+    fn new(
+      db: postgres::Conn, 
+      auth: thirdpartyservice::Auth
+    ) -> Self {
+        Self { db, auth }
+    }
+
+    fn perform_operation(&self) {
+        // operational logic here
+    }
+}
+```
+</Code>
+
+This approach maintains a clean mental model: shapes represent data; structures encapsulate logic. It avoids complexities introduced by subclassing and inheritance.
+
+## Spread Operator
+
+I also really love the spread operator in TypeScript, which allows us to quickly create a new object with a subset of properties from an existing object:
+
+<Code language="typescript">
+```typescript
+const newObj = { ...obj, newProp: 5 };
+```
+</Code>
+
+This is another annoyance in Go, where it is common but difficult to do so without using reflection, or manually copying the properties. A frequent source of these -- translating database-inferred types into DTOs or vice versa.
+
+<Code language="go">
+```go
+func getThing() dtos.Thing {
+    thing, err := getFromSQL() // thing is of type generated.Thing
+    if err != nil {
+        panic(err)
+    }
+    
+    return dtos.Thing{
+        Name: thing.Name,
+        Description: thing.Description,
+        // and so on and so forth...
+    }
+}
+```
+</Code>
+
+## Utility Types 
+
+I also really love the utility types in TypeScript, which allow us to transform types into other types. For example, we can use `Pick` to create a new type with only the properties we want:
+
+<Code language="typescript">
+  ```typescript
+  type User = {
+    id: number;
+    name: string;
+    email: string;
+  };
+
+  /* 
+  {
+    id: number | undefined;
+    name: string;
+    email: string;
+  }
+  */
+  type UserWithoutID = Omit<User, "id"> & 
+    Partial<Pick<User, "id">>;   
+```
+</Code>
+
+This is useful in database operations particularly -- e.g. the above `UserWithoutID` type would be a common pattern for creating a new user, if we want to use the database's default id generation logic.
+
+## Rich Standard Library
+
+An ideal language should include a rich standard library, especially for common tasks like HTTP servers, encoding/decoding, JSON/XML parsing, and more. Having these capabilities built-in, as Go does, dramatically simplifies initial project setup and avoids fragmentation:
+
+<Code language="go">
+```go
+import (
+  "net/http"
+  "encoding/json"
+)
+
+http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    response := map[string]string{"message": "Hello, World!"}
+    json.NewEncoder(w).Encode(response)
+})
+
+http.ListenAndServe(":8080", nil)
+```
+</Code>
+
+This approach allows developers to focus immediately on their application logic, rather than wasting valuable time selecting third-party libraries for basic functionalities.
+
+## Defer clause
+
+I also really love `defer` in Go, which allows us to execute code after a funciton has returned, making cleanup really easy.
+
+<Code language="go">
+```go
+func doThing() {
+  tx := makeTransaction()
+  defer tx.Rollback()
+
+  // do stuff with tx
+}
+```
+</Code>
+
+Go allows us to pass in a single function as a value to defer. Our first class support for blocks prevents this clumsy nonsense:
+
+<Code language="go">
+```go
+func doThing() {
+  tx1 := makeTransaction()
+  tx2 := makeTransaction()
+
+  defer func() {
+    tx1.Rollback()
+    tx2,Rollback()
+  }()
+
+  ...
+}
+```
+</Code>
+
+In our language:
+
+<Code language="mylang">
+```
+fn do_thing() {
+  tx1 := make_transaction()
+  tx2 := make_transaction()
+
+  defer {
+    tx1.rollback()
+    tx2.rollback()
+  }
+}
+```
+</Code>
+
+## No Async—Use Lightweight Tasks
+
+I dislike explicit async/await syntax because it creates a function coloring problem that propagates little async/await keywords throughout the codebase. Instead, I'd embrace lightweight concurrency primitives like Go’s goroutines or Swift’s structured concurrency with tasks. This approach simplifies concurrent programming without the overhead and complexity of explicit async/await syntax:
+
+<Code language="go">
+```go
+go func() {
+    // concurrent logic here
+}()
+```
+</Code>
+
+Again, blocks make the inelegant go syntax more palatable.
+
+<Code language="mylang">
+```mylang
+spawn heavy_task();
+spawn {
+  let x = heavy_task();
+  return x |> another_heavy_task();
+}
+```
+</Code>
+
+We will provide primitives in the standard library to make managing concurrency easier.
+
+<Code language="mylang">
+```
+let wg = sync::WaitGroup();
+spawn {
+  wg.add(); // accept optional count
+  defer wg.done();
+  heavy_task();
+}
+wg.wait();
+```
+</Code>
+
+And a `ResultWaitGroup` to simplify error handling. `ResultWaitGroup.done()` accepts a `Result<T, E>` type, and `ResultWaitGroup.wait()` returns a `Result<T, Vec<E>>` type:
+
+<Code language="mylang">
+```
+let wg = sync::ResultWaitGroup();
+spawn {
+  wg.add(); // accept optional count
+  let result = heavy_task();
+  wg.done(result);
+}
+
+let all_results = wg.wait();
+match all_results {
+  Ok(results) => results,
+  Err(errors) => {
+    log::error("at least one task failed: \{ errors.len }");
+    panic!("failed to complete all tasks");
+  },
+}
+```
+</Code>
+
+We also have a `concurrent` keyword to simplify concurrent logic:
+
+<Code language="mylang">
+```
+concurrent {
+  let x = heavy_task();
+  let y = another_heavy_task();
+}
+
+let z = x + y;
+```
+</Code>
+
+## Conclusion
+
+The programming language I want to build emphasizes clarity and simplicity. As a result, it borrows heavily from Go, while adopting niceties that have become popular in other languages since Go 1.0 was first released. Spread operators, tagged unions, and utility types make the language more ergonomic, particularly for the common workload of building APIs and data models.

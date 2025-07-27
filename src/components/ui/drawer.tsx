@@ -190,17 +190,11 @@ function DrawerContent({ className, children, ...props }: DrawerContentProps) {
       wrapClassName={cn(
         "group/drawer-content",
         // Override Geist's default styling with theme-aware colors
-        "[&_.drawer]:!bg-background [&_.drawer]:!text-foreground",
-        "[&_.drawer]:!border-border",
-        // Ensure the drawer content area is properly themed
-        "[&_.drawer>*]:!bg-background [&_.drawer>*]:!text-foreground",
         className
       )}
       {...props}
     >
-      <div className="m-0 min-h-full bg-background p-0 text-foreground">
-        {children}
-      </div>
+      <div className="m-0 min-h-full p-0 text-foreground">{children}</div>
     </GeistDrawer>
   );
 }
@@ -236,11 +230,7 @@ interface DrawerTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
 function DrawerTitle({ className, children, ...props }: DrawerTitleProps) {
   return (
     <GeistDrawer.Title
-      className={cn(
-        "font-semibold text-foreground tracking-tight",
-        "!text-foreground dark:!text-white", // Force text color override
-        className
-      )}
+      className={cn("font-semibold text-foreground tracking-tight", className)}
       data-slot="drawer-title"
       {...props}
     >
