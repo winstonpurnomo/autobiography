@@ -3,23 +3,27 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Home() {
+  const fadeInUp = {
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] },
+  };
+
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
   return (
-    <>
+    <motion.div animate="animate" initial="initial" variants={staggerContainer}>
       <header>
-        <motion.h1
-          animate={{ opacity: 1, y: 0 }}
-          className="font-bold text-6xl"
-          initial={{ opacity: 0, y: 50 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
+        <motion.h1 className="font-bold text-6xl" variants={fadeInUp}>
           Hello, I'm Winston
         </motion.h1>
-        <motion.h3
-          animate={{ opacity: 1, y: 0 }}
-          className="font-thin"
-          initial={{ opacity: 0, y: 50 }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
-        >
+        <motion.h3 className="font-thin" variants={fadeInUp}>
           I'm a software engineer based in the San Francisco Bay Area. I
           currently work at Meta on the{" "}
           <a href="https://business.whatsapp.com/products/ads-that-click-to-whatsapp">
@@ -28,12 +32,7 @@ export default function Home() {
           . I'm also an ex-YC founder.
         </motion.h3>
       </header>
-      <motion.div
-        animate={{ opacity: 1, y: 0 }}
-        className="flex gap-4"
-        initial={{ opacity: 0, y: 20 }}
-        transition={{ duration: 0.8, ease: "easeOut", delay: 1 }}
-      >
+      <motion.div className="flex gap-4" variants={fadeInUp}>
         <Link href="https://www.linkedin.com/in/wpurnomo/">
           <Avatar>
             <AvatarImage
@@ -44,7 +43,7 @@ export default function Home() {
             <AvatarFallback>LinkedIn</AvatarFallback>
           </Avatar>
         </Link>
-        <Link href="https://github.com/winston-purnomo">
+        <Link href="https://github.com/winstonpurnomo">
           <Avatar>
             <AvatarImage
               alt="GitHub"
@@ -55,6 +54,6 @@ export default function Home() {
           </Avatar>
         </Link>
       </motion.div>
-    </>
+    </motion.div>
   );
 }

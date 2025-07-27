@@ -33,7 +33,7 @@ export default function RootLayout({
             <div className="flex min-h-screen flex-col">
               <Navigation />
               <main className="flex-1 py-8">
-                <div className="mx-auto max-w-md">{children}</div>
+                <div className="mx-auto max-w-lg">{children}</div>
               </main>
               <Toaster />
               <Footer />

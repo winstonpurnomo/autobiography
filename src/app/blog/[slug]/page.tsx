@@ -59,7 +59,7 @@ export default async function Page({
   });
 
   return (
-    <div className="mx-auto max-w-[80rem] px-6 md:px-12">
+    <div className="mx-auto max-w-[100rem] px-6 md:px-12">
       <motion.h1
         animate={{ opacity: 1, y: 0 }}
         initial={{ opacity: 0, y: 50 }}

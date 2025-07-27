@@ -1,29 +1,35 @@
 "use client";
 
-import { Drawer } from "@geist-ui/core";
 import { MenuIcon, Moon, Sun } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Button } from "./ui/button";
 
 export function Navigation() {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const toggleTheme = () => {
-    // console.log("Current theme:", theme);
     setTheme(theme === "light" ? "dark" : "light");
-    // console.log("Theme set to:", theme === "light" ? "dark" : "light");
   };
 
-  const [drawer, setDrawer] = useState(false);
+  const handleLinkClick = () => {
+    setDrawerOpen(false);
+  };
 
   if (!mounted) {
     return null;
@@ -40,54 +46,55 @@ export function Navigation() {
       </Link>
       <div className="flex items-center gap-8">
         <nav className="flex">
-          <Button
-            className="lg:hidden"
-            onClick={() => setDrawer(true)}
-            size="icon"
-            variant="outline"
-          >
-            <MenuIcon />
-            <span className="sr-only">Open menu</span>
-          </Button>
           <Drawer
-            onClose={() => setDrawer(false)}
-            onContentClick={() => setDrawer(false)}
-            placement="bottom"
-            visible={drawer}
+            direction="bottom"
+            onOpenChange={setDrawerOpen}
+            open={drawerOpen}
           >
-            <div className="flex flex-col gap-12 py-6">
-              <Drawer.Title>Menu</Drawer.Title>
-              <Link
-                className={`px-6 ${
-                  pathname === "/blog"
-                    ? "text-blue-500"
-                    : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-                href="/blog"
-              >
-                <span>Blog</span>
-              </Link>
-              <Link
-                className={`px-6 ${
-                  pathname === "/portfolio"
-                    ? "text-blue-500"
-                    : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-                href="/portfolio"
-              >
-                <span>Portfolio</span>
-              </Link>
-              <Link
-                className={`px-6 ${
-                  pathname === "/contact"
-                    ? "text-blue-500"
-                    : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-                href="/contact"
-              >
-                <span>Contact</span>
-              </Link>
-            </div>
+            <DrawerTrigger asChild>
+              <Button className="lg:hidden" size="icon" variant="outline">
+                <MenuIcon />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent className="bg-background dark:bg-background">
+              <div className="flex flex-col gap-12 py-6">
+                <DrawerTitle>Menu</DrawerTitle>
+                <Link
+                  className={`px-6 ${
+                    pathname === "/blog"
+                      ? "text-blue-500"
+                      : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+                  }`}
+                  href="/blog"
+                  onClick={handleLinkClick}
+                >
+                  <span>Blog</span>
+                </Link>
+                <Link
+                  className={`px-6 ${
+                    pathname === "/portfolio"
+                      ? "text-blue-500"
+                      : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+                  }`}
+                  href="/portfolio"
+                  onClick={handleLinkClick}
+                >
+                  <span>Portfolio</span>
+                </Link>
+                <Link
+                  className={`px-6 ${
+                    pathname === "/contact"
+                      ? "text-blue-500"
+                      : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+                  }`}
+                  href="/contact"
+                  onClick={handleLinkClick}
+                >
+                  <span>Contact</span>
+                </Link>
+              </div>
+            </DrawerContent>
           </Drawer>
           <div className="hidden lg:block">
             <Link

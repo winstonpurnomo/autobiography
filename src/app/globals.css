@@ -36,13 +36,39 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 9%;
+    --dot-bg: #f9fafb;
+    --dot-color: #d1d5db;
+    --dot-size: 1px;
+    --dot-space: 20px;
   }
 
-  .dark {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 93%;
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --dot-bg: #111827;
+      --dot-color: #374151;
+      --dot-size: 0.5px;
+      --dot-space: 20px;
+    }
+  }
+
+  body {
+    background-color: var(--dot-bg);
+    background-image: radial-gradient(
+      circle, 
+      var(--dot-color) var(--dot-size), 
+      transparent var(--dot-size)
+    );
+    background-size: var(--dot-space) var(--dot-space);
+    background-attachment: fixed;
+  }
+
+  .geist-drawer .drawer {
+    background-color: hsl(var(--background)) !important;
+    color: hsl(var(--foreground)) !important;
+  }
+
+  .geist-drawer .drawer * {
+    color: hsl(var(--foreground)) !important;
   }
 }
 
