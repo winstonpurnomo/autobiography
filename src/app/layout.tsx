@@ -3,6 +3,7 @@ import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import type React from "react";
 import { Toaster } from "sonner";
@@ -40,6 +41,7 @@ export default function RootLayout({
             </div>
           </Providers>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
