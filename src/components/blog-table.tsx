@@ -1,15 +1,15 @@
 "use client";
 
-import { useMemo } from "react";
-import Link from "next/link";
 import {
   type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import type { Post } from "@/lib/get-blog-posts";
 import { motion } from "motion/react";
+import Link from "next/link";
+import { useMemo } from "react";
+import type { Post } from "@/lib/get-blog-posts";
 
 export default function BlogTable({ posts }: { posts: Post[] }) {
   const columns = useMemo<ColumnDef<Post>[]>(
@@ -19,8 +19,8 @@ export default function BlogTable({ posts }: { posts: Post[] }) {
         header: "Title",
         cell: (info) => (
           <Link
-            href={`/blog/${info.row.original.slug}`}
             className="text-blue-500 hover:underline"
+            href={`/blog/${info.row.original.slug}`}
           >
             {info.getValue<string>()}
           </Link>
@@ -32,7 +32,7 @@ export default function BlogTable({ posts }: { posts: Post[] }) {
         cell: (info) => new Date(info.getValue<string>()).toLocaleDateString(),
       },
     ],
-    [],
+    []
   );
 
   const table = useReactTable({
@@ -44,16 +44,16 @@ export default function BlogTable({ posts }: { posts: Post[] }) {
   return (
     <>
       <motion.h1
-        initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 50 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         Blog Posts
       </motion.h1>
       <motion.div
+        animate={{ opacity: 1, y: 0 }}
         className="p-4"
         initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
       >
         <table className="w-full border-collapse border-0">
@@ -61,7 +61,7 @@ export default function BlogTable({ posts }: { posts: Post[] }) {
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="p-2">
+                  <td className="p-2" key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

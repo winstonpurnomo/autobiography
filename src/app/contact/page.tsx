@@ -1,9 +1,11 @@
 "use client";
 
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import { sendEmail } from "@/lib/send-email";
+import { toast } from "sonner";
+import { z } from "zod/v4";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,13 +16,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { motion } from "motion/react";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { sendEmail } from "@/lib/send-email";
 
 const contactFormSchema = z.object({
   name: z.string().min(5, "Please enter your full name"),
-  email: z.string().email("Please enter a valid email"),
+  email: z.email({ message: "Please enter a valid email" }),
   message: z.string().min(10, "Your message must be at least 10 characters"),
 });
 
@@ -54,7 +54,7 @@ export default function Contact() {
 
       form.reset();
       toast.success("Message sent successfully!");
-    } catch (error) {
+    } catch {
       toast.error("There was an unexpected error. Please try again later.");
     }
   }
@@ -62,15 +62,15 @@ export default function Contact() {
   return (
     <>
       <motion.h1
-        initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 50 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         Contact
       </motion.h1>
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 50 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
       >
         <Form {...form}>
@@ -125,9 +125,9 @@ export default function Contact() {
               />
 
               <Button
-                type="submit"
                 className="w-xfull"
                 disabled={!form.formState.isValid}
+                type="submit"
               >
                 Send
               </Button>

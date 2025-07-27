@@ -8,14 +8,16 @@ export type Post = {
   date: Date;
 };
 
-export async function getBlogPosts(): Promise<Post[]> {
+const MDX_RE = /\.mdx?$/;
+
+export function getBlogPosts(): Post[] {
   const contentDir = path.join(process.cwd(), "src/content");
   const files = fs.readdirSync(contentDir);
 
   return files
     .filter((file) => file.endsWith(".mdx") || file.endsWith(".md"))
     .map((file) => {
-      const slug = file.replace(/\.mdx?$/, "");
+      const slug = file.replace(MDX_RE, "");
       const filePath = path.join(contentDir, file);
       const fileContent = fs.readFileSync(filePath, "utf-8");
       const { data } = matter(fileContent);

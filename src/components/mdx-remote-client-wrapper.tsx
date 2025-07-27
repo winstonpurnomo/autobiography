@@ -6,12 +6,14 @@ import dynamic from "next/dynamic";
 // This is allowed here because this file is a client component.
 const MDXRemoteClient = dynamic(
   () => import("@/components/mdx-remote-client"),
-  { ssr: false },
+  { ssr: false }
 );
 
 export default function MDXRemoteClientWrapper({
   mdxSource,
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-}: { mdxSource: any }) {
+}: {
+  // biome-ignore lint/suspicious/noExplicitAny: mdxSource is dynamic
+  mdxSource: any;
+}) {
   return <MDXRemoteClient mdxSource={mdxSource} />;
 }

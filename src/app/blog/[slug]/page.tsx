@@ -1,15 +1,17 @@
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
+import * as motion from "motion/react-client";
 import { notFound } from "next/navigation";
 import { compileMDX } from "next-mdx-remote/rsc";
-import { useMDXComponents } from "@/mdx-components";
-import * as motion from "motion/react-client";
 import { Badge } from "@/components/ui/badge";
+import { useMDXComponents } from "@/mdx-components";
 
-export async function generateStaticParams() {
+const MDX_RE = /\.mdx?$/;
+
+export function generateStaticParams() {
   const files = readdirSync(path.join(process.cwd(), "src/content"));
   return files.map((file) => ({
-    slug: file.replace(/\.mdx?$/, ""),
+    slug: file.replace(MDX_RE, ""),
   }));
 }
 
@@ -57,39 +59,39 @@ export default async function Page({
   });
 
   return (
-    <div className="max-w-[80rem] px-6 md:px-12 mx-auto">
+    <div className="mx-auto max-w-[80rem] px-6 md:px-12">
       <motion.h1
-        initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 50 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         {data.frontmatter.title}
       </motion.h1>
       <motion.em
-        initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 50 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
       >
         {data.frontmatter.date}
       </motion.em>
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 50 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
       >
         {data.frontmatter.tags?.map((tag, i) => (
           <Badge
+            className={`mr-2 bg-white-50 ${badgeColors[i % badgeColors.length]} text-black`}
             key={tag}
-            className={`bg-white-50 mr-2 ${badgeColors[i % badgeColors.length]} text-black`}
           >
             {tag}
           </Badge>
         ))}
       </motion.div>
       <motion.div
+        animate={{ opacity: 1, y: 0 }}
         className="mt-8"
         initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.9 }}
       >
         {data.content}

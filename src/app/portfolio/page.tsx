@@ -1,3 +1,4 @@
+import * as motion from "motion/react-client";
 import {
   Accordion,
   AccordionContent,
@@ -5,7 +6,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import * as motion from "motion/react-client";
 
 const experience = [
   {
@@ -50,76 +50,65 @@ export default function Portfolio() {
   return (
     <div>
       <motion.h1
-        initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 50 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         Portfolio
       </motion.h1>
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 50 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
       >
         <h2>Work Experience</h2>
 
         <Accordion type="multiple">
-          {experience.map((experience) => (
-            <AccordionItem key={experience.title} value={experience.title}>
+          {experience.map((exp) => (
+            <AccordionItem key={exp.title} value={exp.title}>
               <AccordionTrigger>
                 <div className="flex gap-2">
                   <Avatar>
-                    <AvatarImage
-                      src={experience.logo}
-                      alt={experience.company}
-                    />
-                    <AvatarFallback>{experience.company}</AvatarFallback>
+                    <AvatarImage alt={exp.company} src={exp.logo} />
+                    <AvatarFallback>{exp.company}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <strong>{experience.company}</strong> {experience.title}
+                    <strong>{exp.company}</strong> {exp.title}
                     <br />
-                    {experience.start} -{" "}
-                    {experience.end === "present" ? (
-                      <em>present</em>
-                    ) : (
-                      experience.end
-                    )}
+                    {exp.start} -{" "}
+                    {exp.end === "present" ? <em>present</em> : exp.end}
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent>{experience.description}</AccordionContent>
+              <AccordionContent>{exp.description}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
       </motion.div>
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 50 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
       >
         <h2>Education</h2>
         <Accordion type="multiple">
-          {education.map((education) => (
-            <AccordionItem key={education.school} value={education.school}>
+          {education.map((edu) => (
+            <AccordionItem key={edu.school} value={edu.school}>
               <AccordionTrigger>
                 <div className="flex gap-2">
                   <Avatar>
-                    <AvatarImage src={education.logo} alt={education.school} />
-                    <AvatarFallback>{education.school}</AvatarFallback>
+                    <AvatarImage alt={edu.school} src={edu.logo} />
+                    <AvatarFallback>{edu.school}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <strong>{education.school}</strong>
+                    <strong>{edu.school}</strong>
                     <br />
-                    {education.start} -{" "}
-                    {education.end === "present" ? (
-                      <em>present</em>
-                    ) : (
-                      education.end
-                    )}
+                    {edu.start} -{" "}
+                    {edu.end === "present" ? <em>present</em> : edu.end}
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent>{education.description}</AccordionContent>
+              <AccordionContent>{edu.description}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>

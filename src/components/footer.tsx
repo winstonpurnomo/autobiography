@@ -29,7 +29,7 @@ export function Footer() {
   const formattedDate = `${days[today.getDay()]}, ${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
 
   return (
-    <footer className="py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+    <footer className="py-8 text-center text-gray-500 text-sm dark:text-gray-400">
       Today is {formattedDate}. I hope you&apos;re having a lovely day.
     </footer>
   );

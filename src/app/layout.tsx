@@ -1,15 +1,16 @@
-import { Gabarito, Inter } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Navigation } from "@/components/navigation";
+import { Gabarito } from "next/font/google";
 import { Footer } from "@/components/footer";
+import { Navigation } from "@/components/navigation";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
+import type { Metadata } from "next";
 import type React from "react";
-import { Providers } from "./providers";
 import { Toaster } from "sonner";
+import { Providers } from "./providers";
 
 const gabarito = Gabarito({ subsets: ["latin"] });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "winston/purnomo",
   description: "Personal website",
 };
@@ -25,14 +26,14 @@ export default function RootLayout({
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
-          enableSystem={false}
           disableTransitionOnChange
+          enableSystem={false}
         >
           <Providers>
             <div className="flex min-h-screen flex-col">
               <Navigation />
               <main className="flex-1 py-8">
-                <div className="max-w-md mx-auto">{children}</div>
+                <div className="mx-auto max-w-md">{children}</div>
               </main>
               <Toaster />
               <Footer />
