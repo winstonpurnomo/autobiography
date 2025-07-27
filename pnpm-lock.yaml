@@ -158,6 +158,39 @@ importers:
       nodemailer:
         specifier: ^7.0.5
         version: 7.0.5
+      prism-bash:
+        specifier: link:@prismjs/components/prism-bash
+        version: link:@prismjs/components/prism-bash
+      prism-css:
+        specifier: link:@prismjs/components/prism-css
+        version: link:@prismjs/components/prism-css
+      prism-go:
+        specifier: link:@prismjs/components/prism-go
+        version: link:@prismjs/components/prism-go
+      prism-javascript:
+        specifier: link:@prismjs/components/prism-javascript
+        version: link:@prismjs/components/prism-javascript
+      prism-json:
+        specifier: link:@prismjs/components/prism-json
+        version: link:@prismjs/components/prism-json
+      prism-jsx:
+        specifier: link:@prismjs/components/prism-jsx
+        version: link:@prismjs/components/prism-jsx
+      prism-python:
+        specifier: link:@prismjs/components/prism-python
+        version: link:@prismjs/components/prism-python
+      prism-rust:
+        specifier: link:@prismjs/components/prism-rust
+        version: link:@prismjs/components/prism-rust
+      prism-swift:
+        specifier: link:@prismjs/components/prism-swift
+        version: link:@prismjs/components/prism-swift
+      prism-tsx:
+        specifier: link:@prismjs/components/prism-tsx
+        version: link:@prismjs/components/prism-tsx
+      prism-typescript:
+        specifier: link:@prismjs/components/prism-typescript
+        version: link:@prismjs/components/prism-typescript
       prismjs:
         specifier: ^1.30.0
         version: 1.30.0
