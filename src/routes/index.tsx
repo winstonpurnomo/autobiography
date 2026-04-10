@@ -14,9 +14,14 @@ function RouteComponent() {
       <p className="mb-4 text-xs leading-tight tracking-wide text-muted-foreground uppercase font-mono">
         Software Engineer · San Francisco Bay Area
       </p>
-      <h1 className="mb-8 max-w-190 text-7xl text-balance text-foreground">
-        Hello, I'm Winston
-      </h1>
+      <div className="mb-8 flex items-center gap-5">
+        <h1 className="max-w-190 text-7xl text-balance text-foreground font-serif">
+          Hello, I'm Winston
+        </h1>
+        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-muted text-foreground font-semibold text-lg select-none">
+          WP
+        </div>
+      </div>
       <p className="max-w-245 text-base leading-[1.75] text-muted-foreground">
         I'm a{" "}
         <a
@@ -28,12 +33,8 @@ function RouteComponent() {
             variant="outline"
             className="text-base rounded-full text-foreground"
           >
-            <img
-              src="/yc.svg"
-              alt="YC"
-              className="inline-block h-3 w-3"
-            />
-            Y Combinator
+            <img src="/yc.svg" alt="YC" className="inline-block h-3 w-3" />Y
+            Combinator
             <ArrowUpRightIcon className="inline-block size-3" />
           </Button>
         </a>{" "}

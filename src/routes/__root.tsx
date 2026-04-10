@@ -6,7 +6,7 @@ import {
   createRootRoute,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { ChevronDownIcon, SidebarIcon, SunIcon, XIcon } from "lucide-react";
+import { ChevronDownIcon, SidebarIcon, SunIcon } from "lucide-react";
 import { ThemeProvider, useTheme } from "next-themes";
 import { useRef } from "react";
 
@@ -58,10 +58,7 @@ export const Route = createRootRoute({
 
 const NAV = ["Blog", "About", "Contact"] as const;
 
-const FOOTER_LINK_COLUMNS = [
-  ["Blog", "About", "Contact"],
-  ["GitHub ↗", "LinkedIn ↗"],
-] as const;
+const FOOTER_LINK_COLUMNS = [["Blog", "About", "Contact"]] as const;
 
 function ThemeSelector() {
   const { theme, setTheme } = useTheme();
@@ -119,7 +116,7 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                       <a
                         key={item}
                         href={`#${item.toLowerCase()}`}
-                        className="flex min-h-10 items-center gap-1.5 transition-colors hover:text-foreground"
+                        className="flex min-h-10 items-center gap-1.5 transition-colors hover:text-foreground tracking-tight"
                       >
                         <span>{item}</span>
                       </a>
@@ -168,51 +165,48 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
               </DrawerPortal>
 
               <div className="relative min-h-0 flex-1">
+                <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+                  <svg
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-foreground/6"
+                    width="1800"
+                    height="1800"
+                    viewBox="-900 -900 1800 1800"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    aria-hidden="true"
+                  >
+                    {[120, 240, 360, 480, 600, 720, 840].map((r) => (
+                      <circle key={r} r={r} />
+                    ))}
+                    {Array.from({ length: 24 }, (_, i) => {
+                      const angle = (i * Math.PI * 2) / 24;
+                      return (
+                        <line
+                          key={i}
+                          x1={0}
+                          y1={0}
+                          x2={Math.cos(angle) * 840}
+                          y2={Math.sin(angle) * 840}
+                          strokeWidth="0.75"
+                        />
+                      );
+                    })}
+                    <circle r={4} fill="currentColor" stroke="none" />
+                  </svg>
+                </div>
+
                 <div className="absolute inset-x-0 bottom-0 z-0">
-                  <div className="mx-auto max-w-300 border-x border-t border-border bg-card px-6 py-18 sm:px-10 sm:py-24">
+                  <div className="mx-auto max-w-300 h-100 border-x border-t border-border bg-card px-6 py-10 sm:px-10 sm:py-24">
                     <div className="grid gap-14 lg:grid-cols-[1.4fr_0.9fr] lg:gap-24">
                       <div className="max-w-200">
                         <div className="mb-8 flex items-center gap-3 font-semibold tracking-tight text-foreground">
                           <span className="leading-none">winston/purnomo</span>
                         </div>
 
-                        <p className="mb-5 text-base text-muted-foreground">
-                          Join my mailing list to receive occasional updates
-                        </p>
-
-                        <div className="mb-4 flex max-w-115 flex-col gap-3 sm:flex-row">
-                          <input
-                            type="email"
-                            placeholder="your@email.com"
-                            className="h-12 flex-1 rounded-md border border-border bg-background px-4 text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/30 focus:outline-none"
-                          />
-                          <button className="h-12 rounded-md border border-border bg-primary px-5 font-mono text-[0.82rem] tracking-[0.08em] text-primary-foreground transition-transform active:scale-[0.96]">
-                            SUBSCRIBE
-                          </button>
-                        </div>
-
                         <p className="mb-8 text-base text-muted-foreground">
                           Copyright © 2026 Winston Purnomo. All rights reserved.
                         </p>
-
-                        <div className="flex gap-8 font-mono text-[0.92rem] text-foreground">
-                          <a
-                            href="https://github.com/wpurnomo"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="transition-colors hover:text-primary text-sm"
-                          >
-                            GITHUB ↗
-                          </a>
-                          <a
-                            href="https://linkedin.com/in/wpurnomo"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="transition-colors hover:text-primary text-sm"
-                          >
-                            LINKEDIN ↗
-                          </a>
-                        </div>
                       </div>
 
                       <div className="grid gap-10 sm:grid-cols-2">
@@ -222,6 +216,7 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                             className="space-y-4 font-mono text-sm text-foreground"
                           >
                             {column.map((item) => (
+                              // oxlint-disable-next-line jsx_a11y/anchor-is-valid
                               <a
                                 key={item}
                                 href="#"
@@ -245,7 +240,7 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                     </div>
                   </div>
 
-                  <div className="h-105" />
+                  <div className="h-99" />
                 </div>
               </div>
             </Drawer>
