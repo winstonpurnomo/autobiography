@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
 @import "@fontsource/uncut-sans";
 @import "@fontsource/instrument-serif";
 @import "@fontsource-variable/victor-mono";
@@ -149,7 +150,7 @@
     scrollbar-color: oklch(0.4 0 0 / 40%) transparent;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background tracking-tight text-foreground;
   }
   html {
     @apply font-sans;

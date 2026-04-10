@@ -1,6 +1,7 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import {
   HeadContent,
+  Link,
   Outlet,
   Scripts,
   createRootRoute,
@@ -138,21 +139,36 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                   </div>
 
                   <nav className="hidden items-center gap-10 text-muted-foreground lg:flex">
-                    {NAV.map((item) => (
-                      <a
-                        key={item}
-                        href={`#${item.toLowerCase()}`}
-                        className="flex min-h-10 items-center gap-1.5 transition-colors hover:text-foreground tracking-tight"
-                      >
-                        <span>{item}</span>
-                      </a>
-                    ))}
+                    {NAV.map((item) =>
+                      item === "Blog" ? (
+                        <Link
+                          key={item}
+                          to="/blog"
+                          className="flex min-h-10 items-center gap-1.5 tracking-tight transition-colors hover:text-foreground"
+                        >
+                          <span>{item}</span>
+                        </Link>
+                      ) : (
+                        <a
+                          key={item}
+                          href={`#${item.toLowerCase()}`}
+                          className="flex min-h-10 items-center gap-1.5 tracking-tight transition-colors hover:text-foreground"
+                        >
+                          <span>{item}</span>
+                        </a>
+                      )
+                    )}
                     <ThemeSelector />
                   </nav>
 
-                  <DrawerTrigger className="flex items-center justify-center lg:hidden">
-                    <SidebarIcon className="size-4 text-muted-foreground" />
-                  </DrawerTrigger>
+                  <DrawerTrigger
+                    className="flex items-center justify-center lg:hidden"
+                    render={(props) => (
+                      <button type="button" {...props}>
+                        <SidebarIcon className="size-4 text-muted-foreground" />
+                      </button>
+                    )}
+                  />
                 </div>
               </header>
 
@@ -169,13 +185,21 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                         {NAV.map((item) => (
                           <DrawerClose
                             key={item}
-                            render={(props) => (
-                              <a href={`#${item.toLowerCase()}`} {...props}>
-                                <span className="flex min-h-12 items-center text-lg font-medium text-foreground transition-colors hover:text-muted-foreground">
-                                  {item}
-                                </span>
-                              </a>
-                            )}
+                            render={(props) =>
+                              item === "Blog" ? (
+                                <Link to="/blog" {...props}>
+                                  <span className="flex min-h-12 items-center text-lg font-medium text-foreground transition-colors hover:text-muted-foreground">
+                                    {item}
+                                  </span>
+                                </Link>
+                              ) : (
+                                <a href={`#${item.toLowerCase()}`} {...props}>
+                                  <span className="flex min-h-12 items-center text-lg font-medium text-foreground transition-colors hover:text-muted-foreground">
+                                    {item}
+                                  </span>
+                                </a>
+                              )
+                            }
                           />
                         ))}
                       </nav>
