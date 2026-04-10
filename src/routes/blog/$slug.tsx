@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeftIcon } from "lucide-react";
 import { MDXProvider } from "@mdx-js/react";
 import { mdxComponents } from "@/components/mdx-components";
+import { useNavTransition } from "@/lib/utils";
 
 interface PostMeta {
   title: string;
@@ -34,11 +35,13 @@ function RouteComponent() {
   const { slug } = Route.useParams();
   const post = getPost(slug)!;
   const Content = post.default;
+  const handleNavClick = useNavTransition();
 
   return (
     <article className="px-6 sm:px-10 py-16 sm:py-24 max-w-215">
       <Link
         to="/blog"
+        onClick={(e) => handleNavClick("/blog", undefined, e)}
         className="mb-10 flex items-center gap-1.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeftIcon className="size-3" />

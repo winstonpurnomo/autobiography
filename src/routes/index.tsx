@@ -22,7 +22,7 @@ function RouteComponent() {
           WP
         </div>
       </div>
-      <p className="max-w-245 text-base leading-[1.75] text-muted-foreground">
+      <p className="max-w-245 text-xl leading-loose text-muted-foreground">
         I'm a{" "}
         <a
           href="https://www.ycombinator.com"
@@ -31,7 +31,7 @@ function RouteComponent() {
         >
           <Button
             variant="outline"
-            className="text-base rounded-full text-foreground"
+            className="text-xl rounded-full text-foreground"
           >
             <img src="/yc.svg" alt="YC" className="inline-block h-3 w-3" />Y
             Combinator
@@ -47,7 +47,7 @@ function RouteComponent() {
         >
           <Button
             variant="outline"
-            className="text-base rounded-full text-foreground"
+            className="text-xl rounded-full text-foreground"
           >
             <img
               src="/snowflake-color.svg"
@@ -69,7 +69,7 @@ function RouteComponent() {
         >
           <Button
             size="lg"
-            className="text-base rounded-full x-0 text-foreground"
+            className="text-xl rounded-full x-0 text-foreground"
             variant="outline"
           >
             <div
@@ -98,7 +98,7 @@ function RouteComponent() {
         >
           <Button
             size="lg"
-            className="text-base rounded-full x-0 text-foreground"
+            className="text-xl rounded-full x-0 text-foreground"
             variant="outline"
           >
             <img

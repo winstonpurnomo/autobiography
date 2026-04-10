@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useNavTransition } from "@/lib/utils";
 
 interface PostMeta {
   title: string;
@@ -27,6 +28,8 @@ export const Route = createFileRoute("/blog/")({
 });
 
 function RouteComponent() {
+  const handleNavClick = useNavTransition();
+
   return (
     <section className="px-6 sm:px-10 py-16 sm:py-24 max-w-215">
       <p className="mb-4 text-xs leading-tight tracking-wide text-muted-foreground uppercase font-mono">
@@ -41,6 +44,9 @@ function RouteComponent() {
               to="/blog/$slug"
               params={{ slug: post.slug }}
               className="group block"
+              onClick={(e) =>
+                handleNavClick("/blog/$slug", { slug: post.slug }, e)
+              }
             >
               <p className="mb-1 font-mono text-xs text-muted-foreground">
                 {new Date(post.date).toLocaleDateString("en-US", {

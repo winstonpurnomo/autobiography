@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   createRootRoute,
+  linkOptions,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { ChevronDownIcon, SidebarIcon, SunIcon } from "lucide-react";
@@ -31,6 +32,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn, useNavTransition } from "@/lib/utils";
 
 import appCss from "../styles.css?url";
 
@@ -58,7 +60,20 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 });
 
-const NAV = ["Blog", "About", "Contact"] as const;
+const NAV = [
+  {
+    label: "Blog",
+    to: linkOptions({ to: "/blog" }),
+  },
+  {
+    label: "About",
+    to: linkOptions({ to: "/about" }),
+  },
+  {
+    label: "Contact",
+    to: linkOptions({ to: "/contact" }),
+  },
+] as const;
 
 const FOOTER_LINK_COLUMNS = [["Blog", "About", "Contact"]] as const;
 
@@ -119,8 +134,10 @@ function ThemeSelector() {
   );
 }
 
+
 function LayoutComponent({ children }: { children: React.ReactNode }) {
   const portalContainerRef = useRef<HTMLDivElement>(null);
+  const handleNavClick = useNavTransition();
 
   return (
     <DrawerProvider>
@@ -134,30 +151,31 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
             <Drawer>
               <header className="relative z-50 -mb-3 shrink-0 border-b border-border/80 bg-background/95 backdrop-blur-sm">
                 <div className="mx-auto flex h-18 max-w-380 items-center justify-between px-6 sm:px-10">
-                  <div className="flex items-center gap-3 font-semibold tracking-tight text-foreground">
-                    <span className="leading-none">winston/purnomo</span>
-                  </div>
+                  <Link to="/" onClick={(e) => handleNavClick("/", undefined, e)}>
+                    <div className="flex items-center gap-3 font-semibold tracking-tight text-foreground">
+                      <span className="leading-none">winston/purnomo</span>
+                    </div>
+                  </Link>
 
                   <nav className="hidden items-center gap-10 text-muted-foreground lg:flex">
-                    {NAV.map((item) =>
-                      item === "Blog" ? (
-                        <Link
-                          key={item}
-                          to="/blog"
-                          className="flex min-h-10 items-center gap-1.5 tracking-tight transition-colors hover:text-foreground"
-                        >
-                          <span>{item}</span>
-                        </Link>
-                      ) : (
-                        <a
-                          key={item}
-                          href={`#${item.toLowerCase()}`}
-                          className="flex min-h-10 items-center gap-1.5 tracking-tight transition-colors hover:text-foreground"
-                        >
-                          <span>{item}</span>
-                        </a>
-                      )
-                    )}
+                    {NAV.map((item) => (
+                      <Link
+                        key={item.label}
+                        {...item.to}
+                        onClick={(e) => handleNavClick(item.to.to, undefined, e)}
+                      >
+                        {({ isActive }) => (
+                          <span
+                            className={cn(
+                              "flex min-h-10 items-center gap-1.5 tracking-tight transition-colors hover:text-foreground",
+                              isActive ? "underline underline-offset-2" : ""
+                            )}
+                          >
+                            {item.label}
+                          </span>
+                        )}
+                      </Link>
+                    ))}
                     <ThemeSelector />
                   </nav>
 
@@ -184,22 +202,27 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                       <nav className="flex flex-col gap-1">
                         {NAV.map((item) => (
                           <DrawerClose
-                            key={item}
-                            render={(props) =>
-                              item === "Blog" ? (
-                                <Link to="/blog" {...props}>
-                                  <span className="flex min-h-12 items-center text-lg font-medium text-foreground transition-colors hover:text-muted-foreground">
-                                    {item}
+                            key={item.label}
+                            render={(props) => (
+                              <Link
+                                {...item.to}
+                                onClick={(e) => handleNavClick(item.to.to, undefined, e)}
+                                {...props}
+                              >
+                                {({ isActive }) => (
+                                  <span
+                                    className={cn(
+                                      "flex min-h-12 items-center text-lg font-medium transition-colors hover:text-muted-foreground",
+                                      isActive
+                                        ? "text-primary"
+                                        : "text-foreground"
+                                    )}
+                                  >
+                                    {item.label}
                                   </span>
-                                </Link>
-                              ) : (
-                                <a href={`#${item.toLowerCase()}`} {...props}>
-                                  <span className="flex min-h-12 items-center text-lg font-medium text-foreground transition-colors hover:text-muted-foreground">
-                                    {item}
-                                  </span>
-                                </a>
-                              )
-                            }
+                                )}
+                              </Link>
+                            )}
                           />
                         ))}
                       </nav>
@@ -285,7 +308,7 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                 <div className="relative z-10 h-full overflow-y-auto overscroll-y-contain">
                   <div className="mx-auto max-w-300 pt-2">
                     <div className="border-b border-border" />
-                    <div className="border-x border-b border-border bg-background">
+                    <div className="border-x border-b border-border bg-background min-h-[90vh]">
                       <main>{children}</main>
                     </div>
                   </div>
