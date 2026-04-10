@@ -57,7 +57,7 @@ function RouteComponent() {
         {post.frontmatter.title}
       </h1>
 
-      <div className="prose prose-neutral dark:prose-invert max-w-none text-foreground [&_h1]:font-serif [&_h2]:font-serif [&_h3]:font-serif [&_code]:font-mono [&_a]:text-primary [&_a]:underline [&_a:hover]:text-primary/80">
+      <div className="prose prose-neutral dark:prose-invert max-w-none text-foreground [&_h1]:font-serif [&_h2]:font-serif [&_h3]:font-serif [&_code]:font-mono [&_code]:before:content-none [&_code]:after:content-none [&_a]:text-primary [&_a]:underline [&_a:hover]:text-primary/80">
         <MDXProvider components={mdxComponents}>
           <Content />
         </MDXProvider>
