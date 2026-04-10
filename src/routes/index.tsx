@@ -156,7 +156,7 @@ function RouteComponent() {
               >
                 <span>{item}</span>
                 {item === "Model Guide" ? (
-                  <span className="rounded-sm bg-primary px-1.5 py-0.5 text-[10px] leading-none font-bold text-primary-foreground">
+                  <span className="rounded-sm bg-primary px-1.5 py-0.5 text-xs leading-none font-bold text-primary-foreground">
                     NEW
                   </span>
                 ) : null}
@@ -197,7 +197,7 @@ function RouteComponent() {
 
                 <p className="mb-8 text-base text-muted-foreground">
                   By subscribing, I agree to the Vals&apos;{" "}
-                  <span className="font-mono text-foreground">
+                  <span className="font-mono text-foreground text-sm">
                     PRIVACY POLICY.
                   </span>
                 </p>
@@ -207,10 +207,16 @@ function RouteComponent() {
                 </p>
 
                 <div className="flex gap-8 font-mono text-[0.92rem] text-foreground">
-                  <a href="#" className="transition-colors hover:text-primary">
+                  <a
+                    href="#"
+                    className="transition-colors hover:text-primary text-sm"
+                  >
                     X (TWITTER) ↗
                   </a>
-                  <a href="#" className="transition-colors hover:text-primary">
+                  <a
+                    href="#"
+                    className="transition-colors hover:text-primary text-sm"
+                  >
                     LINKEDIN ↗
                   </a>
                 </div>
@@ -220,7 +226,7 @@ function RouteComponent() {
                 {FOOTER_LINK_COLUMNS.map((column) => (
                   <div
                     key={column.join("-")}
-                    className="space-y-4 font-mono text-[0.92rem] tracking-[0.08em] text-foreground"
+                    className="space-y-4 font-mono text-sm text-foreground"
                   >
                     {column.map((item) => (
                       <a
