@@ -626,3 +626,12 @@ export function DrawerMenuRadioItem({
 }
 
 export { DrawerPrimitive };
+
+export const DrawerProvider: typeof DrawerPrimitive.Provider =
+  DrawerPrimitive.Provider;
+
+export const DrawerIndent: typeof DrawerPrimitive.Indent =
+  DrawerPrimitive.Indent;
+
+export const DrawerIndentBackground: typeof DrawerPrimitive.IndentBackground =
+  DrawerPrimitive.IndentBackground;
