@@ -124,6 +124,24 @@
   --destructive-foreground: var(--color-red-400);
 }
 
+::view-transition-old(root) {
+  animation: none;
+  z-index: -1;
+}
+
+::view-transition-new(root) {
+  animation: theme-expand 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes theme-expand {
+  from {
+    clip-path: circle(0% at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+  to {
+    clip-path: circle(150% at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

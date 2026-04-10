@@ -9,6 +9,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { ChevronDownIcon, SidebarIcon, SunIcon } from "lucide-react";
 import { ThemeProvider, useTheme } from "next-themes";
 import { useRef } from "react";
+import { flushSync } from "react-dom";
 
 import {
   Drawer,
@@ -62,6 +63,27 @@ const FOOTER_LINK_COLUMNS = [["Blog", "About", "Contact"]] as const;
 
 function ThemeSelector() {
   const { theme, setTheme } = useTheme();
+  const lastPointer = useRef({ x: 0, y: 0 });
+
+  const handleThemeChange = (newTheme: string) => {
+    const { x, y } = lastPointer.current;
+
+    if (!document.startViewTransition) {
+      setTheme(newTheme);
+      return;
+    }
+
+    document.documentElement.style.setProperty("--vt-x", `${x}px`);
+    document.documentElement.style.setProperty("--vt-y", `${y}px`);
+
+    document.startViewTransition(() => {
+      flushSync(() => setTheme(newTheme));
+    });
+  };
+
+  const trackPointer = (e: React.PointerEvent) => {
+    lastPointer.current = { x: e.clientX, y: e.clientY };
+  };
 
   return (
     <DropdownMenu>
@@ -75,8 +97,12 @@ function ThemeSelector() {
           </button>
         )}
       />
-      <DropdownMenuContent align="end" sideOffset={8}>
-        <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
+      <DropdownMenuContent
+        align="end"
+        sideOffset={8}
+        onPointerDown={trackPointer}
+      >
+        <DropdownMenuRadioGroup value={theme} onValueChange={handleThemeChange}>
           <DropdownMenuRadioItem value="light" className="text-md">
             Light
           </DropdownMenuRadioItem>
