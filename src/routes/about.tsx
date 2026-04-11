@@ -56,8 +56,9 @@ function RouteComponent() {
                 <ArrowUpRightIcon className="inline-block size-3.5" />
               </Button>
             </a>{" "}
-            as a Software Engineer on the Click to WhatsApp Ads team. Our team
-            drives revenue growth for...
+            as a Software Engineer on the Click to WhatsApp Ads team. I helped
+            ship features that empower small business all around the world to
+            reach their customers where they already are.
           </p>
 
           <p>
@@ -125,7 +126,33 @@ function RouteComponent() {
                   <ArrowUpRightIcon className="inline-block size-3.5" />
                 </Button>
               </a>{" "}
-              on the Apple Pay team.
+              on the Apple Pay team. Our team built the software stack on iOS
+              that talked to the radios.
+            </p>
+          </p>
+
+          <p>
+            <p className="mt-4 text-xl leading-snug text-foreground">
+              I graduated from{" "}
+              <a
+                href="https://berkeley.edu"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button
+                  variant="outline"
+                  className="text-xl rounded-full text-foreground align-middle py-4 mb-2"
+                >
+                  <img
+                    src="/berkeley.png"
+                    alt="Berkeley"
+                    className="inline-block h-3.5 w-3"
+                  />
+                  UC Berkeley
+                  <ArrowUpRightIcon className="inline-block size-3.5" />
+                </Button>
+              </a>{" "}
+              with a degree in Computer Science in three years.
             </p>
           </p>
         </div>
