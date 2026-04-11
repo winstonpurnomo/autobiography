@@ -65,17 +65,13 @@ const NAV = [
     label: "Blog",
     to: linkOptions({ to: "/blog" }),
   },
-  {
-    label: "About",
-    to: linkOptions({ to: "/about" }),
-  },
-  {
+{
     label: "Contact",
     to: linkOptions({ to: "/contact" }),
   },
 ] as const;
 
-const FOOTER_LINK_COLUMNS = [["Blog", "About", "Contact"]] as const;
+const FOOTER_LINK_COLUMNS = [["Blog", "Contact"]] as const;
 
 function ThemeSelector() {
   const { theme, setTheme } = useTheme();
