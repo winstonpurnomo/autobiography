@@ -1,6 +1,7 @@
+import { MDXProvider } from "@mdx-js/react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeftIcon } from "lucide-react";
-import { MDXProvider } from "@mdx-js/react";
+
 import { mdxComponents } from "@/components/mdx-components";
 import { useNavTransition } from "@/lib/utils";
 
@@ -15,10 +16,9 @@ interface PostModule {
   default: React.ComponentType;
 }
 
-const postModules = import.meta.glob<PostModule>(
-  "../../content/blog/*.mdx",
-  { eager: true }
-);
+const postModules = import.meta.glob<PostModule>("../../content/blog/*.mdx", {
+  eager: true,
+});
 
 function getPost(slug: string): PostModule | undefined {
   return postModules[`../../content/blog/${slug}.mdx`];
@@ -26,13 +26,16 @@ function getPost(slug: string): PostModule | undefined {
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
-    if (!getPost(params.slug)) throw notFound();
+    if (!getPost(params.slug)) {
+      throw notFound();
+    }
   },
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const { slug } = Route.useParams();
+  // oxlint-disable-next-line typescript/no-non-null-assertion
   const post = getPost(slug)!;
   const Content = post.default;
   const handleNavClick = useNavTransition();
@@ -40,8 +43,8 @@ function RouteComponent() {
   return (
     <article className="px-6 sm:px-10 py-16 sm:py-24 max-w-215">
       <Link
-        to="/blog"
-        onClick={(e) => handleNavClick("/blog", undefined, e)}
+        to="/"
+        onClick={(e) => handleNavClick("/", undefined, e)}
         className="mb-10 flex items-center gap-1.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeftIcon className="size-3" />

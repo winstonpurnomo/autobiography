@@ -16,6 +16,8 @@ export function useNavTransition() {
 
     if (!document.startViewTransition) {
       navigate({ to, params });
+      const container = document.querySelector("[data-scroll-container]");
+      if (container) container.scrollTop = 0;
       return;
     }
 
@@ -24,6 +26,8 @@ export function useNavTransition() {
 
     document.startViewTransition(() => {
       flushSync(() => navigate({ to, params }));
+      const container = document.querySelector("[data-scroll-container]");
+      if (container) container.scrollTop = 0;
     });
   };
 }

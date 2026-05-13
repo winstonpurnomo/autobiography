@@ -62,16 +62,12 @@ export const Route = createRootRoute({
 
 const NAV = [
   {
-    label: "Blog",
-    to: linkOptions({ to: "/blog" }),
-  },
-{
     label: "Contact",
     to: linkOptions({ to: "/contact" }),
   },
 ] as const;
 
-const FOOTER_LINK_COLUMNS = [["Blog", "Contact"]] as const;
+const FOOTER_LINK_COLUMNS = [["Contact"]] as const;
 
 function ThemeSelector() {
   const { theme, setTheme } = useTheme();
@@ -265,7 +261,7 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                   </svg>
                 </div>
 
-                <div className="absolute inset-x-0 bottom-0 z-0">
+                <div className="absolute inset-x-0 bottom-0 z-0 overflow-y-scroll">
                   <div className="mx-auto max-w-300 h-100 border-x border-t border-border bg-card px-6 py-10 sm:px-10 sm:py-24">
                     <div className="grid gap-14 lg:grid-cols-[1.4fr_0.9fr] lg:gap-24">
                       <div className="max-w-200">
@@ -301,7 +297,7 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                   </div>
                 </div>
 
-                <div className="relative z-10 h-full overflow-y-auto overscroll-y-contain">
+                <div data-scroll-container className="relative z-10 h-full overflow-y-auto overscroll-y-contain [scrollbar-gutter:stable]">
                   <div className="mx-auto max-w-300 pt-2">
                     <div className="border-b border-border" />
                     <div className="border-x border-b border-border bg-background min-h-[90vh]">
@@ -309,7 +305,7 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                     </div>
                   </div>
 
-                  <div className="h-99" />
+                  <div className="h-100" />
                 </div>
               </div>
             </Drawer>

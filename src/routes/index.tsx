@@ -1,24 +1,48 @@
 // oxlint-disable react/no-unescaped-entities
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRightIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { useNavTransition } from "@/lib/utils";
+
+interface PostMeta {
+  title: string;
+  date: string;
+  description: string;
+}
+
+interface PostModule {
+  frontmatter: PostMeta;
+}
+
+const postModules = import.meta.glob<PostModule>("../content/blog/*.mdx", {
+  eager: true,
+});
+
+const posts = Object.entries(postModules)
+  .map(([path, mod]) => {
+    const slug = path.replace("../content/blog/", "").replace(".mdx", "");
+    return { slug, ...mod.frontmatter };
+  })
+  .sort((a, b) => (a.date < b.date ? 1 : -1));
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const handleNavClick = useNavTransition();
+
   return (
     <section className="flex flex-col justify-center px-6 sm:px-10 pt-20 pb-16 sm:pt-28 sm:pb-24 max-w-215 min-h-screen">
       <p className="mb-4 text-xs leading-tight tracking-wide text-muted-foreground uppercase font-mono">
         Software Engineer · San Francisco Bay Area
       </p>
-      <div className="mb-8 flex items-center gap-5">
-        <h1 className="max-w-190 text-7xl text-balance text-foreground font-serif">
+      <div className="mb-8 flex self-start items-end gap-5">
+        <h1 className="text-7xl text-foreground font-serif">
           Hello, I'm Winston
         </h1>
-        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-muted text-foreground font-semibold text-lg select-none">
+        <div className="hidden sm:flex mb-2 h-16 w-16 shrink-0 items-center justify-center rounded-full bg-muted text-foreground font-semibold text-lg select-none">
           WP
         </div>
       </div>
@@ -78,6 +102,9 @@ function RouteComponent() {
       </div>
 
       <section id="about" className="pt-16 space-y-8">
+        <p className="mb-2 text-xs leading-tight tracking-wide text-muted-foreground uppercase font-mono">
+          About
+        </p>
         <p className="text-xl leading-snug text-foreground">
           Currently, I work at{" "}
           <a
@@ -87,7 +114,7 @@ function RouteComponent() {
           >
             <Button
               variant="outline"
-              className="text-xl rounded-full text-foreground align-middle py-0.5"
+              className="text-xl rounded-full text-foreground align-middle py-0.5 -translate-y-0.5"
             >
               <img
                 src="/snowflake-color.svg"
@@ -103,14 +130,10 @@ function RouteComponent() {
 
         <p className="text-xl leading-snug text-foreground">
           Previously, I worked at{" "}
-          <a
-            href="https://meta.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://meta.com" target="_blank" rel="noopener noreferrer">
             <Button
               variant="outline"
-              className="text-xl rounded-full text-foreground align-middle py-0.5"
+              className="text-xl rounded-full text-foreground align-middle py-0.5 -translate-y-0.5"
             >
               <img
                 src="/meta.png"
@@ -135,7 +158,7 @@ function RouteComponent() {
           >
             <Button
               variant="outline"
-              className="text-xl rounded-full text-foreground align-middle py-0.5"
+              className="text-xl rounded-full text-foreground align-middle py-0.5 -translate-y-0.5"
             >
               <img
                 src="/yc.svg"
@@ -154,7 +177,7 @@ function RouteComponent() {
           >
             <Button
               variant="outline"
-              className="text-xl rounded-full text-foreground align-middle py-0.5"
+              className="text-xl rounded-full text-foreground align-middle py-0.5 -translate-y-0.5"
             >
               <img
                 src="/wavelength.png"
@@ -170,14 +193,10 @@ function RouteComponent() {
 
         <p className="text-xl leading-snug text-foreground">
           Prior to that, I was a software engineer at{" "}
-          <a
-            href="https://apple.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://apple.com" target="_blank" rel="noopener noreferrer">
             <Button
               variant="outline"
-              className="text-xl rounded-full text-foreground align-middle py-0.5"
+              className="text-xl rounded-full text-foreground align-middle py-0.5 -translate-y-0.5"
             >
               <img
                 src="/apple.svg"
@@ -188,8 +207,8 @@ function RouteComponent() {
               <ArrowUpRightIcon className="inline-block size-3.5" />
             </Button>
           </a>{" "}
-          on the Apple Pay team. Our team built the software stack on iOS
-          that talked to the radios.
+          on the Apple Pay team. Our team built the software stack on iOS that
+          talked to the radios.
         </p>
 
         <p className="text-xl leading-snug text-foreground">
@@ -201,7 +220,7 @@ function RouteComponent() {
           >
             <Button
               variant="outline"
-              className="text-xl rounded-full text-foreground align-middle py-0.5"
+              className="text-xl rounded-full text-foreground align-middle py-0.5 -translate-y-0.5"
             >
               <img
                 src="/berkeley.png"
@@ -214,6 +233,37 @@ function RouteComponent() {
           </a>{" "}
           with a degree in Computer Science in three years.
         </p>
+      </section>
+
+      <section id="writing" className="pt-16">
+        <p className="mb-6 text-xs leading-tight tracking-wide text-muted-foreground uppercase font-mono">
+          Writing
+        </p>
+        <ul>
+          {posts.map((post) => (
+            <li key={post.slug}>
+              <Link
+                to="/blog/$slug"
+                params={{ slug: post.slug }}
+                className="group flex items-baseline justify-between gap-4 py-3 border-t border-border"
+                onClick={(e) =>
+                  handleNavClick("/blog/$slug", { slug: post.slug }, e)
+                }
+              >
+                <span className="text-base text-foreground group-hover:text-primary transition-colors">
+                  {post.title}
+                </span>
+                <span className="shrink-0 font-mono text-xs text-muted-foreground">
+                  {new Date(post.date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
     </section>
   );
