@@ -179,9 +179,9 @@ I also really love the utility types in TypeScript, which allow us to transform 
 
 ```typescript
 type User = {
-    id: number;
-    name: string;
-    email: string;
+  id: number;
+  name: string;
+  email: string;
 };
 
 /*
@@ -191,9 +191,7 @@ type User = {
     email: string;
 }
 */
-type UserWithoutID = Omit<User, "id"> &
-Partial<Pick<User, "id">>;
-
+type UserWithoutID = Omit<User, "id"> & Partial<Pick<User, "id">>;
 ```
 
 This is useful in database operations particularly -- e.g. the above `UserWithoutID` type would be a common pattern for creating a new user, if we want to use the database's default id generation logic.

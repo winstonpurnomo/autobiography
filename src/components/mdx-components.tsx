@@ -44,7 +44,10 @@ function processTextNode(text: string): React.ReactNode[] {
   return parts.map((part, i) => {
     if (part.startsWith("`") && part.endsWith("`") && part.length > 2) {
       return (
-        <code key={i} className="bg-muted rounded px-1 py-0.5 text-sm font-mono">
+        <code
+          key={i}
+          className="bg-muted rounded px-1 py-0.5 text-sm font-mono"
+        >
           {part.slice(1, -1)}
         </code>
       );
