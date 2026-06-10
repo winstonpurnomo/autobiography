@@ -5,7 +5,6 @@ import {
   Outlet,
   Scripts,
   createRootRoute,
-  linkOptions,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { ChevronDownIcon, SidebarIcon, SunIcon } from "lucide-react";
@@ -15,7 +14,6 @@ import { flushSync } from "react-dom";
 
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerIndent,
   DrawerIndentBackground,
@@ -30,7 +28,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { cn, useNavTransition } from "@/lib/utils";
+import { useNavTransition } from "@/lib/utils";
 
 import appCss from "../styles.css?url";
 
@@ -62,15 +60,6 @@ export const Route = createRootRoute({
   }),
   shellComponent: RootDocument,
 });
-
-const NAV = [
-  {
-    label: "Contact",
-    to: linkOptions({ to: "/contact" }),
-  },
-] as const;
-
-const FOOTER_LINK_COLUMNS = [["Contact"]] as const;
 
 function ThemeSelector() {
   const { theme, setTheme } = useTheme();
@@ -131,7 +120,7 @@ function ThemeSelector() {
 
 function LayoutComponent({ children }: { children: React.ReactNode }) {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(
-    null,
+    null
   );
   const handleNavClick = useNavTransition();
 
@@ -142,7 +131,7 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
         className="[--bleed:3rem] relative flex h-screen flex-col overflow-hidden bg-black text-foreground antialiased"
       >
         <DrawerIndentBackground className="absolute inset-0 bg-black" />
-        <DrawerIndent className="[--indent-radius:calc(1rem*(1-var(--drawer-swipe-progress,0)))] [--indent-transition:calc(1-clamp(0,calc(var(--drawer-swipe-progress,0)*100000),1))] relative flex min-h-0 flex-1 flex-col bg-background origin-[center_top] will-change-transform [--progress:var(--drawer-swipe-progress,0)] [transform:scale(1)_translateY(0)] [transition:transform_0.45s_cubic-bezier(0.32,0.72,0,1),border-radius_0.25s_cubic-bezier(0.32,0.72,0,1)] data-[active]:[transform:scale(calc(0.96+(0.04*var(--progress))))_translateY(calc(0.75rem*(1-var(--progress))))] data-[active]:rounded-t-2xl">
+        <DrawerIndent className="[--indent-radius:calc(1rem*(1-var(--drawer-swipe-progress,0)))] [--indent-transition:calc(1-clamp(0,calc(var(--drawer-swipe-progress,0)*100000),1))] relative flex min-h-0 flex-1 flex-col bg-background origin-[center_top] will-change-transform [--progress:var(--drawer-swipe-progress,0)] transform-[scale(1)_translateY(0)] [transition:transform_0.45s_cubic-bezier(0.32,0.72,0,1),border-radius_0.25s_cubic-bezier(0.32,0.72,0,1)] data-active:transform-[scale(calc(0.96+(0.04*var(--progress))))_translateY(calc(0.75rem*(1-var(--progress))))] data-active:rounded-t-2xl">
           <div className="relative flex h-screen flex-col overflow-hidden">
             <Drawer>
               <header className="relative z-50 -mb-3 shrink-0 border-b border-border/80 bg-background/95 backdrop-blur-sm">
@@ -157,26 +146,6 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                   </Link>
 
                   <nav className="hidden items-center gap-10 text-muted-foreground lg:flex">
-                    {NAV.map((item) => (
-                      <Link
-                        key={item.label}
-                        {...item.to}
-                        onClick={(e) =>
-                          handleNavClick(item.to.to, undefined, e)
-                        }
-                      >
-                        {({ isActive }) => (
-                          <span
-                            className={cn(
-                              "flex min-h-10 items-center gap-1.5 tracking-tight transition-colors hover:text-foreground",
-                              isActive ? "underline underline-offset-2" : "",
-                            )}
-                          >
-                            {item.label}
-                          </span>
-                        )}
-                      </Link>
-                    ))}
                     <ThemeSelector />
                   </nav>
 
@@ -199,30 +168,7 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
               >
                 <DrawerContent>
                   <div className="px-6 py-4">
-                    <nav className="flex flex-col gap-1">
-                      {NAV.map((item) => (
-                        <Link
-                          key={item.label}
-                          {...item.to}
-                          onClick={(e) =>
-                            handleNavClick(item.to.to, undefined, e)
-                          }
-                        >
-                          {({ isActive }) => (
-                            <DrawerClose>
-                              <span
-                                className={cn(
-                                  "flex min-h-12 items-center text-lg font-medium transition-colors hover:text-muted-foreground",
-                                  isActive ? "text-primary" : "text-foreground",
-                                )}
-                              >
-                                {item.label}
-                              </span>
-                            </DrawerClose>
-                          )}
-                        </Link>
-                      ))}
-                    </nav>
+                    <nav className="flex flex-col gap-1" />
                     <div className="mt-6 border-t border-border pt-6">
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <span className="text-sm">Theme</span>
@@ -267,43 +213,19 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
 
                 <div className="absolute inset-x-0 bottom-0 z-0 overflow-y-scroll">
                   <div className="mx-auto max-w-300 h-100 border-x border-t border-border bg-card px-6 py-10 sm:px-10 sm:py-24">
-                    <div className="grid gap-14 lg:grid-cols-[1.4fr_0.9fr] lg:gap-24">
-                      <div className="max-w-200">
-                        <div className="mb-8 flex items-center gap-3 font-semibold tracking-tight text-foreground">
-                          <span className="leading-none">winston/purnomo</span>
-                        </div>
-
-                        <p className="mb-8 text-base text-muted-foreground">
-                          Copyright © 2026 Winston Purnomo. All rights reserved.
-                        </p>
-                      </div>
-
-                      <div className="grid gap-10 sm:grid-cols-2">
-                        {FOOTER_LINK_COLUMNS.map((column) => (
-                          <div
-                            key={column.join("-")}
-                            className="space-y-4 font-mono text-sm text-foreground"
-                          >
-                            {column.map((item) => (
-                              // oxlint-disable-next-line jsx_a11y/anchor-is-valid
-                              <a
-                                key={item}
-                                href="#"
-                                className="block transition-colors hover:text-primary"
-                              >
-                                {item}
-                              </a>
-                            ))}
-                          </div>
-                        ))}
-                      </div>
+                    <div className="flex items-center gap-3 font-semibold tracking-tight text-foreground mb-8">
+                      <span className="leading-none">winston/purnomo</span>
                     </div>
+
+                    <p className="text-base text-muted-foreground">
+                      Copyright © 2026 Winston Purnomo. All rights reserved.
+                    </p>
                   </div>
                 </div>
 
                 <div
                   data-scroll-container
-                  className="relative z-10 h-full overflow-y-auto overscroll-y-contain [scrollbar-gutter:stable]"
+                  className="relative z-10 h-full overflow-y-auto overscroll-y-contain scrollbar-gutter-stable"
                 >
                   <div className="mx-auto max-w-300 pt-2">
                     <div className="border-b border-border" />
