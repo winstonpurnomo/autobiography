@@ -24,7 +24,7 @@ const posts = Object.entries(postModules)
     const slug = path.replace("../content/blog/", "").replace(".mdx", "");
     return { slug, ...mod.frontmatter };
   })
-  .sort((a, b) => (a.date < b.date ? 1 : -1));
+  .toSorted((a, b) => (a.date < b.date ? 1 : -1));
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -246,8 +246,8 @@ function RouteComponent() {
                 to="/blog/$slug"
                 params={{ slug: post.slug }}
                 className="group flex items-baseline justify-between gap-4 py-3 border-t border-border"
-                onClick={(e) =>
-                  handleNavClick("/blog/$slug", { slug: post.slug }, e)
+                onClick={(e) =>{ 
+                  handleNavClick("/blog/$slug", { slug: post.slug }, e); }
                 }
               >
                 <span className="text-base text-foreground group-hover:text-primary transition-colors">

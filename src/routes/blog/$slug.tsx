@@ -44,7 +44,7 @@ function RouteComponent() {
     <article className="px-6 sm:px-10 py-16 sm:py-24 max-w-215">
       <Link
         to="/"
-        onClick={(e) => handleNavClick("/", undefined, e)}
+        onClick={(e) =>{  handleNavClick("/", undefined, e); }}
         className="mb-10 flex items-center gap-1.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeftIcon className="size-3" />

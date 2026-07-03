@@ -77,7 +77,9 @@ function ThemeSelector() {
     document.documentElement.style.setProperty("--vt-y", `${y}px`);
 
     document.startViewTransition(() => {
-      flushSync(() => setTheme(newTheme));
+      flushSync(() => {
+        setTheme(newTheme);
+      });
     });
   };
 
@@ -138,7 +140,9 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                 <div className="mx-auto flex h-18 max-w-380 items-center justify-between px-6 sm:px-10">
                   <Link
                     to="/"
-                    onClick={(e) => handleNavClick("/", undefined, e)}
+                    onClick={(e) => {
+                      handleNavClick("/", undefined, e);
+                    }}
                   >
                     <div className="flex items-center gap-3 font-semibold tracking-tight text-foreground">
                       <span className="leading-none">winston/purnomo</span>

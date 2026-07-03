@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes";
-import ShikiHighlighter from "react-shiki";
 import React from "react";
+import ShikiHighlighter from "react-shiki";
 
 interface CodeProps {
   className?: string;
