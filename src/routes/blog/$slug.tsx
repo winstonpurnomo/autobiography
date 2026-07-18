@@ -3,7 +3,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeftIcon } from "lucide-react";
 
 import { mdxComponents } from "@/components/mdx-components";
-import { useNavTransition } from "@/lib/utils";
+import { cn, enterAnimation, useNavTransition } from "@/lib/utils";
 
 interface PostMeta {
   title: string;
@@ -45,13 +45,21 @@ function RouteComponent() {
       <Link
         to="/"
         onClick={(e) =>{  handleNavClick("/", undefined, e); }}
-        className="mb-10 flex items-center gap-1.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+        className={cn(
+          enterAnimation,
+          "mb-10 flex items-center gap-1.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+        )}
       >
         <ArrowLeftIcon className="size-3" />
         All posts
       </Link>
 
-      <p className="mb-3 font-mono text-xs text-muted-foreground">
+      <p
+        className={cn(
+          enterAnimation,
+          "motion-delay-100 mb-3 font-mono text-xs text-muted-foreground"
+        )}
+      >
         {new Date(post.frontmatter.date).toLocaleDateString("en-US", {
           year: "numeric",
           month: "long",
@@ -59,11 +67,21 @@ function RouteComponent() {
         })}
       </p>
 
-      <h1 className="mb-10 text-5xl font-serif text-foreground">
+      <h1
+        className={cn(
+          enterAnimation,
+          "motion-delay-200 mb-10 text-5xl text-balance font-serif text-foreground"
+        )}
+      >
         {post.frontmatter.title}
       </h1>
 
-      <div className="prose prose-neutral dark:prose-invert max-w-none text-foreground [&_h1]:font-serif [&_h2]:font-serif [&_h3]:font-serif [&_code]:font-mono [&_code]:before:content-none [&_code]:after:content-none [&_a]:text-primary [&_a]:underline [&_a:hover]:text-primary/80">
+      <div
+        className={cn(
+          enterAnimation,
+          "motion-delay-300 prose prose-neutral dark:prose-invert max-w-none text-foreground prose-headings:text-balance prose-p:text-pretty [&_h1]:font-serif [&_h2]:font-serif [&_h3]:font-serif [&_code]:font-mono [&_code]:before:content-none [&_code]:after:content-none [&_a]:text-primary [&_a]:underline [&_a:hover]:text-primary/80"
+        )}
+      >
         <MDXProvider components={mdxComponents}>
           <Content />
         </MDXProvider>

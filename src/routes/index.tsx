@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRightIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { useNavTransition } from "@/lib/utils";
+import { cn, enterAnimation, useNavTransition } from "@/lib/utils";
 
 interface PostMeta {
   title: string;
@@ -35,22 +35,42 @@ function RouteComponent() {
 
   return (
     <section className="flex flex-col justify-center px-6 sm:px-10 pt-20 pb-16 sm:pt-28 sm:pb-24 max-w-215 min-h-screen">
-      <p className="mb-4 text-xs leading-tight tracking-wide text-muted-foreground uppercase font-mono">
+      <p
+        className={cn(
+          enterAnimation,
+          "mb-4 text-xs leading-tight tracking-wide text-muted-foreground uppercase font-mono"
+        )}
+      >
         Software Engineer · San Francisco Bay Area
       </p>
-      <div className="mb-8 flex self-start items-end gap-5">
-        <h1 className="text-7xl text-foreground font-serif">
+      <div
+        className={cn(
+          enterAnimation,
+          "motion-delay-100 mb-8 flex self-start items-end gap-5"
+        )}
+      >
+        <h1 className="text-7xl text-balance text-foreground font-serif">
           Hello, I'm Winston
         </h1>
         <div className="hidden sm:flex mb-2 h-16 w-16 shrink-0 items-center justify-center rounded-full bg-muted text-foreground font-semibold text-lg select-none">
           WP
         </div>
       </div>
-      <p className="max-w-245 text-xl leading-loose text-muted-foreground">
+      <p
+        className={cn(
+          enterAnimation,
+          "motion-delay-200 max-w-245 text-xl leading-snug text-pretty text-muted-foreground"
+        )}
+      >
         I'm a software engineer based in Silicon Valley.
       </p>
 
-      <div className="pt-6 flex space-x-2 text-muted-foreground">
+      <div
+        className={cn(
+          enterAnimation,
+          "motion-delay-300 pt-6 flex space-x-2 text-muted-foreground"
+        )}
+      >
         <a
           href="https://github.com/winstonpurnomo"
           target="_blank"
@@ -101,11 +121,14 @@ function RouteComponent() {
         </a>
       </div>
 
-      <section id="about" className="pt-16 space-y-8">
+      <section
+        id="about"
+        className={cn(enterAnimation, "motion-delay-[400ms] pt-16 space-y-8")}
+      >
         <p className="mb-2 text-xs leading-tight tracking-wide text-muted-foreground uppercase font-mono">
           About
         </p>
-        <p className="text-xl leading-snug text-foreground">
+        <p className="text-xl leading-snug text-pretty text-foreground">
           Currently, I work at{" "}
           <a
             href="https://snowflake.com"
@@ -128,7 +151,7 @@ function RouteComponent() {
           as a Forward-Deployed Engineer on the AI team.
         </p>
 
-        <p className="text-xl leading-snug text-foreground">
+        <p className="text-xl leading-snug text-pretty text-foreground">
           Previously, I worked at{" "}
           <a href="https://meta.com" target="_blank" rel="noopener noreferrer">
             <Button
@@ -149,7 +172,7 @@ function RouteComponent() {
           reach their customers where they already are.
         </p>
 
-        <p className="text-xl leading-snug text-foreground">
+        <p className="text-xl leading-snug text-pretty text-foreground">
           Before that, I was a co-founder of a{" "}
           <a
             href="https://ycombinator.com"
@@ -191,7 +214,7 @@ function RouteComponent() {
           , where we built the AI-native customer success platform.
         </p>
 
-        <p className="text-xl leading-snug text-foreground">
+        <p className="text-xl leading-snug text-pretty text-foreground">
           Prior to that, I was a software engineer at{" "}
           <a href="https://apple.com" target="_blank" rel="noopener noreferrer">
             <Button
@@ -211,7 +234,7 @@ function RouteComponent() {
           talked to the radios.
         </p>
 
-        <p className="text-xl leading-snug text-foreground">
+        <p className="text-xl leading-snug text-pretty text-foreground">
           I graduated from{" "}
           <a
             href="https://berkeley.edu"
@@ -235,7 +258,10 @@ function RouteComponent() {
         </p>
       </section>
 
-      <section id="writing" className="pt-16">
+      <section
+        id="writing"
+        className={cn(enterAnimation, "motion-delay-500 pt-16")}
+      >
         <p className="mb-6 text-xs leading-tight tracking-wide text-muted-foreground uppercase font-mono">
           Writing
         </p>
