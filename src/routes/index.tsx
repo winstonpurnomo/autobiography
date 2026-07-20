@@ -3,7 +3,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRightIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { cn, enterAnimation, useNavTransition } from "@/lib/utils";
+import {
+  cn,
+  enterAnimation,
+  formatPostDate,
+  useNavTransition,
+} from "@/lib/utils";
 
 interface PostMeta {
   title: string;
@@ -34,11 +39,11 @@ function RouteComponent() {
   const handleNavClick = useNavTransition();
 
   return (
-    <section className="flex flex-col justify-center px-6 sm:px-10 pt-20 pb-16 sm:pt-28 sm:pb-24 max-w-215 min-h-screen">
+    <section className="flex min-h-screen max-w-215 flex-col justify-center px-6 pt-20 pb-16 sm:px-10 sm:pt-28 sm:pb-24">
       <p
         className={cn(
           enterAnimation,
-          "mb-4 text-xs leading-tight tracking-wide text-muted-foreground uppercase font-mono"
+          "mb-4 font-mono text-xs leading-tight tracking-wide text-muted-foreground uppercase"
         )}
       >
         Software Engineer · San Francisco Bay Area
@@ -46,20 +51,20 @@ function RouteComponent() {
       <div
         className={cn(
           enterAnimation,
-          "motion-delay-100 mb-8 flex self-start items-end gap-5"
+          "mb-8 flex items-end gap-5 self-start motion-delay-100"
         )}
       >
-        <h1 className="text-7xl text-balance text-foreground font-serif">
+        <h1 className="font-serif text-7xl text-balance text-foreground">
           Hello, I'm Winston
         </h1>
-        <div className="hidden sm:flex mb-2 h-16 w-16 shrink-0 items-center justify-center rounded-full bg-muted text-foreground font-semibold text-lg select-none">
+        <div className="mb-2 hidden h-16 w-16 shrink-0 items-center justify-center rounded-full bg-muted text-lg font-semibold text-foreground select-none sm:flex">
           WP
         </div>
       </div>
       <p
         className={cn(
           enterAnimation,
-          "motion-delay-200 max-w-245 text-xl leading-snug text-pretty text-muted-foreground"
+          "max-w-245 text-xl leading-snug text-pretty text-muted-foreground motion-delay-200"
         )}
       >
         I'm a software engineer based in Silicon Valley.
@@ -68,7 +73,7 @@ function RouteComponent() {
       <div
         className={cn(
           enterAnimation,
-          "motion-delay-300 pt-6 flex space-x-2 text-muted-foreground"
+          "flex space-x-2 pt-6 text-muted-foreground motion-delay-300"
         )}
       >
         <a
@@ -78,7 +83,7 @@ function RouteComponent() {
         >
           <Button
             size="lg"
-            className="text-xl rounded-full x-0 text-foreground"
+            className="x-0 rounded-full text-xl text-foreground"
             variant="outline"
           >
             <div
@@ -107,7 +112,7 @@ function RouteComponent() {
         >
           <Button
             size="lg"
-            className="text-xl rounded-full x-0 text-foreground"
+            className="x-0 rounded-full text-xl text-foreground"
             variant="outline"
           >
             <img
@@ -123,9 +128,9 @@ function RouteComponent() {
 
       <section
         id="about"
-        className={cn(enterAnimation, "motion-delay-[400ms] pt-16 space-y-8")}
+        className={cn(enterAnimation, "space-y-8 pt-16 motion-delay-[400ms]")}
       >
-        <p className="mb-2 text-xs leading-tight tracking-wide text-muted-foreground uppercase font-mono">
+        <p className="mb-2 font-mono text-xs leading-tight tracking-wide text-muted-foreground uppercase">
           About
         </p>
         <p className="text-xl leading-snug text-pretty text-foreground">
@@ -137,7 +142,7 @@ function RouteComponent() {
           >
             <Button
               variant="outline"
-              className="text-xl rounded-full text-foreground align-middle py-0.5 -translate-y-0.5"
+              className="-translate-y-0.5 rounded-full py-0.5 align-middle text-xl text-foreground"
             >
               <img
                 src="/snowflake-color.svg"
@@ -156,7 +161,7 @@ function RouteComponent() {
           <a href="https://meta.com" target="_blank" rel="noopener noreferrer">
             <Button
               variant="outline"
-              className="text-xl rounded-full text-foreground align-middle py-0.5 -translate-y-0.5"
+              className="-translate-y-0.5 rounded-full py-0.5 align-middle text-xl text-foreground"
             >
               <img
                 src="/meta.png"
@@ -181,7 +186,7 @@ function RouteComponent() {
           >
             <Button
               variant="outline"
-              className="text-xl rounded-full text-foreground align-middle py-0.5 -translate-y-0.5"
+              className="-translate-y-0.5 rounded-full py-0.5 align-middle text-xl text-foreground"
             >
               <img
                 src="/yc.svg"
@@ -200,7 +205,7 @@ function RouteComponent() {
           >
             <Button
               variant="outline"
-              className="text-xl rounded-full text-foreground align-middle py-0.5 -translate-y-0.5"
+              className="-translate-y-0.5 rounded-full py-0.5 align-middle text-xl text-foreground"
             >
               <img
                 src="/wavelength.png"
@@ -219,7 +224,7 @@ function RouteComponent() {
           <a href="https://apple.com" target="_blank" rel="noopener noreferrer">
             <Button
               variant="outline"
-              className="text-xl rounded-full text-foreground align-middle py-0.5 -translate-y-0.5"
+              className="-translate-y-0.5 rounded-full py-0.5 align-middle text-xl text-foreground"
             >
               <img
                 src="/apple.svg"
@@ -243,7 +248,7 @@ function RouteComponent() {
           >
             <Button
               variant="outline"
-              className="text-xl rounded-full text-foreground align-middle py-0.5 -translate-y-0.5"
+              className="-translate-y-0.5 rounded-full py-0.5 align-middle text-xl text-foreground"
             >
               <img
                 src="/berkeley.png"
@@ -260,9 +265,9 @@ function RouteComponent() {
 
       <section
         id="writing"
-        className={cn(enterAnimation, "motion-delay-500 pt-16")}
+        className={cn(enterAnimation, "pt-16 motion-delay-500")}
       >
-        <p className="mb-6 text-xs leading-tight tracking-wide text-muted-foreground uppercase font-mono">
+        <p className="mb-6 font-mono text-xs leading-tight tracking-wide text-muted-foreground uppercase">
           Writing
         </p>
         <ul>
@@ -271,20 +276,16 @@ function RouteComponent() {
               <Link
                 to="/blog/$slug"
                 params={{ slug: post.slug }}
-                className="group flex items-baseline justify-between gap-4 py-3 border-t border-border"
-                onClick={(e) =>{ 
-                  handleNavClick("/blog/$slug", { slug: post.slug }, e); }
-                }
+                className="group flex items-baseline justify-between gap-4 border-t border-border py-3"
+                onClick={(e) => {
+                  handleNavClick("/blog/$slug", { slug: post.slug }, e);
+                }}
               >
-                <span className="text-base text-foreground group-hover:text-primary transition-colors">
+                <span className="text-base text-foreground transition-colors group-hover:text-primary">
                   {post.title}
                 </span>
                 <span className="shrink-0 font-mono text-xs text-muted-foreground">
-                  {new Date(post.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
+                  {formatPostDate(post.date)}
                 </span>
               </Link>
             </li>

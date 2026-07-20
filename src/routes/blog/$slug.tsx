@@ -3,7 +3,12 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeftIcon } from "lucide-react";
 
 import { mdxComponents } from "@/components/mdx-components";
-import { cn, enterAnimation, useNavTransition } from "@/lib/utils";
+import {
+  cn,
+  enterAnimation,
+  formatPostDate,
+  useNavTransition,
+} from "@/lib/utils";
 
 interface PostMeta {
   title: string;
@@ -26,10 +31,32 @@ function getPost(slug: string): PostModule | undefined {
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
-    if (!getPost(params.slug)) {
+    const post = getPost(params.slug);
+    if (!post) {
+      // oxlint-disable-next-line typescript/only-throw-error
       throw notFound();
     }
+    return { frontmatter: post.frontmatter };
   },
+  head: ({ loaderData }) => ({
+    meta: loaderData
+      ? [
+          { title: `${loaderData.frontmatter.title} — Winston Purnomo` },
+          { name: "description", content: loaderData.frontmatter.description },
+          { property: "og:type", content: "article" },
+          { property: "og:title", content: loaderData.frontmatter.title },
+          {
+            property: "og:description",
+            content: loaderData.frontmatter.description,
+          },
+          { name: "twitter:title", content: loaderData.frontmatter.title },
+          {
+            name: "twitter:description",
+            content: loaderData.frontmatter.description,
+          },
+        ]
+      : [],
+  }),
   component: RouteComponent,
 });
 
@@ -41,10 +68,12 @@ function RouteComponent() {
   const handleNavClick = useNavTransition();
 
   return (
-    <article className="px-6 sm:px-10 py-16 sm:py-24 max-w-215">
+    <article className="max-w-215 px-6 py-16 sm:px-10 sm:py-24">
       <Link
         to="/"
-        onClick={(e) =>{  handleNavClick("/", undefined, e); }}
+        onClick={(e) => {
+          handleNavClick("/", undefined, e);
+        }}
         className={cn(
           enterAnimation,
           "mb-10 flex items-center gap-1.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
@@ -57,20 +86,16 @@ function RouteComponent() {
       <p
         className={cn(
           enterAnimation,
-          "motion-delay-100 mb-3 font-mono text-xs text-muted-foreground"
+          "mb-3 font-mono text-xs text-muted-foreground motion-delay-100"
         )}
       >
-        {new Date(post.frontmatter.date).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
+        {formatPostDate(post.frontmatter.date, "long")}
       </p>
 
       <h1
         className={cn(
           enterAnimation,
-          "motion-delay-200 mb-10 text-5xl text-balance font-serif text-foreground"
+          "mb-10 font-serif text-5xl text-balance text-foreground motion-delay-200"
         )}
       >
         {post.frontmatter.title}
@@ -79,7 +104,7 @@ function RouteComponent() {
       <div
         className={cn(
           enterAnimation,
-          "motion-delay-300 prose prose-neutral dark:prose-invert max-w-none text-foreground prose-headings:text-balance prose-p:text-pretty [&_h1]:font-serif [&_h2]:font-serif [&_h3]:font-serif [&_code]:font-mono [&_code]:before:content-none [&_code]:after:content-none [&_a]:text-primary [&_a]:underline [&_a:hover]:text-primary/80"
+          "prose max-w-none text-foreground prose-neutral motion-delay-300 dark:prose-invert prose-headings:text-balance prose-p:text-pretty [&_a]:text-primary [&_a]:underline [&_a:hover]:text-primary/80 [&_code]:font-mono [&_code]:before:content-none [&_code]:after:content-none [&_h1]:font-serif [&_h2]:font-serif [&_h3]:font-serif"
         )}
       >
         <MDXProvider components={mdxComponents}>

@@ -11,10 +11,10 @@ interface CodeProps {
 function Code({ className, children, ...props }: CodeProps) {
   const { resolvedTheme } = useTheme();
 
-  if (!className) {
+  if (className === undefined || className === "") {
     return (
       <code
-        className="bg-muted rounded px-1 py-0.5 text-sm font-mono before:content-none after:content-none"
+        className="rounded bg-muted px-1 py-0.5 font-mono text-sm before:content-none after:content-none"
         {...props}
       >
         {children}
@@ -24,13 +24,14 @@ function Code({ className, children, ...props }: CodeProps) {
 
   const language = className.replace("language-", "") || "text";
   const code =
+    // oxlint-disable-next-line typescript/no-base-to-string
     typeof children === "string" ? children.trimEnd() : String(children ?? "");
 
   return (
     <ShikiHighlighter
       language={language}
       theme={resolvedTheme === "dark" ? "github-dark" : "github-light"}
-      className="text-[13px] border"
+      className="border text-[13px]"
       showLineNumbers
       {...props}
     >
@@ -40,13 +41,13 @@ function Code({ className, children, ...props }: CodeProps) {
 }
 
 function processTextNode(text: string): React.ReactNode[] {
-  const parts = text.split(/(`[^`]+`)/g);
+  const parts = text.split(/(?<inlineCode>`[^`]+`)/gu);
   return parts.map((part, i) => {
     if (part.startsWith("`") && part.endsWith("`") && part.length > 2) {
       return (
         <code
           key={i}
-          className="bg-muted rounded px-1 py-0.5 text-sm font-mono"
+          className="rounded bg-muted px-1 py-0.5 font-mono text-sm"
         >
           {part.slice(1, -1)}
         </code>
@@ -57,7 +58,7 @@ function processTextNode(text: string): React.ReactNode[] {
 }
 
 function processChildren(children: React.ReactNode): React.ReactNode {
-  return React.Children.map(children, (child) => {
+  return React.Children.map(children, (child): React.ReactNode => {
     if (typeof child === "string") {
       return processTextNode(child);
     }
@@ -70,7 +71,8 @@ function Paragraph({ children }: { children?: React.ReactNode }) {
 }
 
 export const mdxComponents = {
-  pre: ({ children }: { children?: React.ReactNode }) => children,
+  pre: ({ children }: { children?: React.ReactNode }): React.ReactNode =>
+    children,
   code: Code,
   p: Paragraph,
 };

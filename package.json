@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit",
     "check": "ultracite check",
     "fix": "ultracite fix",
-    "prepare": "husky"
+    "prepare": "git config core.hooksPath .vite-hooks/_"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -62,15 +62,12 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
-    "husky": "^9.1.7",
     "jsdom": "^29.1.1",
-    "lint-staged": "^17.0.8",
     "typescript": "^6.0.3",
     "ultracite": "7.8.4",
     "vite": "npm:@voidzero-dev/vite-plus-core@0.2.2",
     "vite-plus": "0.2.2",
-    "vitest": "4.1.9",
-    "web-vitals": "^5.3.0"
+    "vitest": "4.1.9"
   },
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core@0.2.2",

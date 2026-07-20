@@ -23,7 +23,7 @@ export default defineConfig({
   },
   lint: {
     extends: [core, react, tanstack, vitest],
-    ignorePatterns: core.ignorePatterns,
+    ignorePatterns: [...(core.ignorePatterns ?? []), "src/components/ui/**"],
     jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
     rules: {
       "sort-keys": "off",

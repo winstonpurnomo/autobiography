@@ -32,6 +32,9 @@ import { useNavTransition } from "@/lib/utils";
 
 import appCss from "../styles.css?url";
 
+const SITE_DESCRIPTION =
+  "Winston Purnomo is a software engineer in the San Francisco Bay Area — currently a Forward-Deployed Engineer on the AI team at Snowflake, previously at Meta and Apple.";
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -45,6 +48,15 @@ export const Route = createRootRoute({
       {
         title: "Winston Purnomo",
       },
+      { name: "description", content: SITE_DESCRIPTION },
+      { name: "theme-color", content: "#09090b" },
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Winston Purnomo" },
+      { property: "og:title", content: "Winston Purnomo" },
+      { property: "og:description", content: SITE_DESCRIPTION },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Winston Purnomo" },
+      { name: "twitter:description", content: SITE_DESCRIPTION },
     ],
     links: [
       {
@@ -56,6 +68,8 @@ export const Route = createRootRoute({
         type: "image/svg+xml",
         href: "/favicon.svg",
       },
+      { rel: "manifest", href: "/manifest.json" },
+      { rel: "apple-touch-icon", href: "/favicon-192.png" },
     ],
   }),
   shellComponent: RootDocument,
@@ -68,7 +82,7 @@ function ThemeSelector() {
   const handleThemeChange = (newTheme: string) => {
     const { x, y } = lastPointer.current;
 
-    if (!document.startViewTransition) {
+    if (typeof document.startViewTransition !== "function") {
       setTheme(newTheme);
       return;
     }
@@ -92,7 +106,7 @@ function ThemeSelector() {
       <DropdownMenuTrigger
         render={(props) => (
           <button type="button" {...props}>
-            <div className="flex space-x-2 items-center">
+            <div className="flex items-center space-x-2">
               <SunIcon className="size-4" />
               <ChevronDownIcon className="size-3" />
             </div>
@@ -130,10 +144,10 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
     <DrawerProvider>
       <div
         ref={setPortalContainer}
-        className="[--bleed:3rem] relative flex h-screen flex-col overflow-hidden bg-black text-foreground antialiased"
+        className="relative flex h-screen flex-col overflow-hidden bg-black text-foreground antialiased [--bleed:3rem]"
       >
         <DrawerIndentBackground className="absolute inset-0 bg-black" />
-        <DrawerIndent className="[--indent-radius:calc(1rem*(1-var(--drawer-swipe-progress,0)))] [--indent-transition:calc(1-clamp(0,calc(var(--drawer-swipe-progress,0)*100000),1))] relative flex min-h-0 flex-1 flex-col bg-background origin-[center_top] will-change-transform [--progress:var(--drawer-swipe-progress,0)] transform-[scale(1)_translateY(0)] [transition:transform_0.45s_cubic-bezier(0.32,0.72,0,1),border-radius_0.25s_cubic-bezier(0.32,0.72,0,1)] data-active:transform-[scale(calc(0.96+(0.04*var(--progress))))_translateY(calc(0.75rem*(1-var(--progress))))] data-active:rounded-t-2xl">
+        <DrawerIndent className="relative flex min-h-0 flex-1 origin-[center_top] transform-[scale(1)_translateY(0)] flex-col bg-background will-change-transform [--indent-radius:calc(1rem*(1-var(--drawer-swipe-progress,0)))] [--indent-transition:calc(1-clamp(0,calc(var(--drawer-swipe-progress,0)*100000),1))] [--progress:var(--drawer-swipe-progress,0)] [transition:transform_0.45s_cubic-bezier(0.32,0.72,0,1),border-radius_0.25s_cubic-bezier(0.32,0.72,0,1)] data-active:transform-[scale(calc(0.96+(0.04*var(--progress))))_translateY(calc(0.75rem*(1-var(--progress))))] data-active:rounded-t-2xl">
           <div className="relative flex h-screen flex-col overflow-hidden">
             <Drawer>
               <header className="relative z-50 -mb-3 shrink-0 border-b border-border/80 bg-background/95 backdrop-blur-sm">
@@ -216,8 +230,8 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
                 </div>
 
                 <div className="absolute inset-x-0 bottom-0 z-0 overflow-y-scroll">
-                  <div className="mx-auto max-w-300 h-100 border-x border-t border-border bg-card px-6 py-10 sm:px-10 sm:py-24">
-                    <div className="flex items-center gap-3 font-semibold tracking-tight text-foreground mb-8">
+                  <div className="mx-auto h-100 max-w-300 border-x border-t border-border bg-card px-6 py-10 sm:px-10 sm:py-24">
+                    <div className="mb-8 flex items-center gap-3 font-semibold tracking-tight text-foreground">
                       <span className="leading-none">winston/purnomo</span>
                     </div>
 
@@ -229,11 +243,11 @@ function LayoutComponent({ children }: { children: React.ReactNode }) {
 
                 <div
                   data-scroll-container
-                  className="relative z-10 h-full overflow-y-auto overscroll-y-contain scrollbar-gutter-stable"
+                  className="relative z-10 h-full scrollbar-gutter-stable overflow-y-auto overscroll-y-contain"
                 >
                   <div className="mx-auto max-w-300 pt-2">
                     <div className="border-b border-border" />
-                    <div className="border-x border-b border-border bg-background min-h-[90vh]">
+                    <div className="min-h-[90vh] border-x border-b border-border bg-background">
                       <main>{children}</main>
                     </div>
                   </div>
