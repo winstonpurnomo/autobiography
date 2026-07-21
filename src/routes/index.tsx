@@ -2,7 +2,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRightIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import {
   cn,
   enterAnimation,
@@ -35,256 +34,173 @@ export const Route = createFileRoute("/")({
   component: RouteComponent,
 });
 
+// Inline underline-style link with a company logo, sized to sit on the text baseline.
+function Chip({
+  href,
+  icon,
+  iconAlt,
+  iconClassName,
+  children,
+}: {
+  href: string;
+  icon: string;
+  iconAlt: string;
+  iconClassName?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group inline-flex items-center gap-1 font-medium text-foreground underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-foreground/60"
+    >
+      <img
+        src={icon}
+        alt={iconAlt}
+        className={cn("inline-block h-4 w-4", iconClassName)}
+      />
+      {children}
+      <ArrowUpRightIcon className="inline-block size-3 text-muted-foreground/50 transition-colors group-hover:text-muted-foreground" />
+    </a>
+  );
+}
+
 function RouteComponent() {
   const handleNavClick = useNavTransition();
 
   return (
-    <section className="flex min-h-screen max-w-215 flex-col justify-center px-6 pt-20 pb-16 sm:px-10 sm:pt-28 sm:pb-24">
-      <p
-        className={cn(
-          enterAnimation,
-          "mb-4 font-mono text-xs leading-tight tracking-wide text-muted-foreground uppercase"
-        )}
-      >
-        Software Engineer · San Francisco Bay Area
-      </p>
+    <div className="flex flex-col">
+      {/* Avatar */}
       <div
         className={cn(
           enterAnimation,
-          "mb-8 flex items-end gap-5 self-start motion-delay-100"
+          "mb-8 flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/80 to-primary text-lg font-semibold text-primary-foreground shadow-lg select-none"
         )}
       >
-        <h1 className="font-serif text-7xl text-balance text-foreground">
-          Hello, I'm Winston
-        </h1>
-        <div className="mb-2 hidden h-16 w-16 shrink-0 items-center justify-center rounded-full bg-muted text-lg font-semibold text-foreground select-none sm:flex">
-          WP
-        </div>
+        WP
       </div>
+
+      {/* Name */}
+      <h1
+        className={cn(
+          enterAnimation,
+          "mb-6 font-serif text-5xl leading-none text-foreground motion-delay-100 sm:text-6xl"
+        )}
+      >
+        Winston Purnomo
+      </h1>
+
+      {/* Bio */}
       <p
         className={cn(
           enterAnimation,
-          "max-w-245 text-xl leading-snug text-pretty text-muted-foreground motion-delay-200"
+          "max-w-xl text-lg leading-loose text-pretty text-muted-foreground motion-delay-200"
         )}
       >
-        I'm a software engineer based in Silicon Valley.
+        Software engineer based in the San Francisco Bay Area. Currently a
+        Forward-Deployed Engineer on the AI team at{" "}
+        <Chip
+          href="https://snowflake.com"
+          icon="/snowflake-color.svg"
+          iconAlt="Snowflake"
+        >
+          Snowflake
+        </Chip>
+        . Previously shipped ads infrastructure at{" "}
+        <Chip
+          href="https://meta.com"
+          icon="/meta.png"
+          iconAlt="Meta"
+          iconClassName="h-3 w-4"
+        >
+          Meta
+        </Chip>
+        , built the software stack that talks to the radios on the{" "}
+        <Chip
+          href="https://apple.com"
+          icon="/apple.svg"
+          iconAlt="Apple"
+          iconClassName="h-3.5 w-3"
+        >
+          Apple
+        </Chip>{" "}
+        Pay team, and co-founded a{" "}
+        <Chip
+          href="https://ycombinator.com"
+          icon="/yc.svg"
+          iconAlt="Y Combinator"
+          iconClassName="h-3 w-4"
+        >
+          Y Combinator
+        </Chip>{" "}
+        company,{" "}
+        <Chip
+          href="https://wavelength.cx"
+          icon="/wavelength.png"
+          iconAlt="Wavelength"
+          iconClassName="h-3 w-4"
+        >
+          Wavelength
+        </Chip>
+        . Studied Computer Science at{" "}
+        <Chip
+          href="https://berkeley.edu"
+          icon="/berkeley.png"
+          iconAlt="Berkeley"
+          iconClassName="h-3.5 w-3"
+        >
+          UC Berkeley
+        </Chip>{" "}
+        , done in three years.
       </p>
 
+      {/* Links */}
       <div
         className={cn(
           enterAnimation,
-          "flex space-x-2 pt-6 text-muted-foreground motion-delay-300"
+          "mt-6 flex items-center gap-5 text-sm text-muted-foreground motion-delay-300"
         )}
       >
         <a
           href="https://github.com/winstonpurnomo"
           target="_blank"
           rel="noopener noreferrer"
+          className="transition-colors hover:text-foreground"
         >
-          <Button
-            size="lg"
-            className="x-0 rounded-full text-xl text-foreground"
-            variant="outline"
-          >
-            <div
-              className="inline-block h-3 w-3 bg-current"
-              style={{
-                maskImage: "url(/github.svg)",
-                maskSize: "contain",
-                maskRepeat: "no-repeat",
-                maskPosition: "center",
-                WebkitMaskImage: "url(/github.svg)",
-                WebkitMaskSize: "contain",
-                WebkitMaskRepeat: "no-repeat",
-                WebkitMaskPosition: "center",
-              }}
-              aria-label="GitHub"
-            />
-            GitHub
-            <ArrowUpRightIcon className="inline-block size-3" />
-          </Button>
+          GitHub
         </a>
-
         <a
           href="https://linkedin.com/in/wpurnomo"
           target="_blank"
           rel="noopener noreferrer"
+          className="transition-colors hover:text-foreground"
         >
-          <Button
-            size="lg"
-            className="x-0 rounded-full text-xl text-foreground"
-            variant="outline"
-          >
-            <img
-              src="/linkedin.png"
-              alt="LinkedIn"
-              className="inline-block h-3 w-3"
-            />
-            LinkedIn
-            <ArrowUpRightIcon className="inline-block size-3" />
-          </Button>
+          LinkedIn
         </a>
       </div>
 
-      <section
-        id="about"
-        className={cn(enterAnimation, "space-y-8 pt-16 motion-delay-[400ms]")}
-      >
-        <p className="mb-2 font-mono text-xs leading-tight tracking-wide text-muted-foreground uppercase">
-          About
-        </p>
-        <p className="text-xl leading-snug text-pretty text-foreground">
-          Currently, I work at{" "}
-          <a
-            href="https://snowflake.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button
-              variant="outline"
-              className="-translate-y-0.5 rounded-full py-0.5 align-middle text-xl text-foreground"
-            >
-              <img
-                src="/snowflake-color.svg"
-                alt="Snowflake"
-                className="inline-block h-4 w-4"
-              />
-              Snowflake
-              <ArrowUpRightIcon className="inline-block size-3.5" />
-            </Button>
-          </a>{" "}
-          as a Forward-Deployed Engineer on the AI team.
-        </p>
-
-        <p className="text-xl leading-snug text-pretty text-foreground">
-          Previously, I worked at{" "}
-          <a href="https://meta.com" target="_blank" rel="noopener noreferrer">
-            <Button
-              variant="outline"
-              className="-translate-y-0.5 rounded-full py-0.5 align-middle text-xl text-foreground"
-            >
-              <img
-                src="/meta.png"
-                alt="Meta"
-                className="inline-block h-3 w-4"
-              />
-              Meta
-              <ArrowUpRightIcon className="inline-block size-3.5" />
-            </Button>
-          </a>{" "}
-          as a Software Engineer on the Click to WhatsApp Ads team. I helped
-          ship features that empower small business all around the world to
-          reach their customers where they already are.
-        </p>
-
-        <p className="text-xl leading-snug text-pretty text-foreground">
-          Before that, I was a co-founder of a{" "}
-          <a
-            href="https://ycombinator.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button
-              variant="outline"
-              className="-translate-y-0.5 rounded-full py-0.5 align-middle text-xl text-foreground"
-            >
-              <img
-                src="/yc.svg"
-                alt="Y Combinator"
-                className="inline-block h-3 w-4"
-              />
-              Y Combinator
-              <ArrowUpRightIcon className="inline-block size-3.5" />
-            </Button>
-          </a>{" "}
-          portfolio company,{" "}
-          <a
-            href="https://wavelength.cx"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button
-              variant="outline"
-              className="-translate-y-0.5 rounded-full py-0.5 align-middle text-xl text-foreground"
-            >
-              <img
-                src="/wavelength.png"
-                alt="Wavelength"
-                className="inline-block h-3 w-4"
-              />
-              Wavelength
-              <ArrowUpRightIcon className="inline-block size-3.5" />
-            </Button>
-          </a>
-          , where we built the AI-native customer success platform.
-        </p>
-
-        <p className="text-xl leading-snug text-pretty text-foreground">
-          Prior to that, I was a software engineer at{" "}
-          <a href="https://apple.com" target="_blank" rel="noopener noreferrer">
-            <Button
-              variant="outline"
-              className="-translate-y-0.5 rounded-full py-0.5 align-middle text-xl text-foreground"
-            >
-              <img
-                src="/apple.svg"
-                alt="Apple"
-                className="inline-block h-3.5 w-3"
-              />
-              Apple
-              <ArrowUpRightIcon className="inline-block size-3.5" />
-            </Button>
-          </a>{" "}
-          on the Apple Pay team. Our team built the software stack on iOS that
-          talked to the radios.
-        </p>
-
-        <p className="text-xl leading-snug text-pretty text-foreground">
-          I graduated from{" "}
-          <a
-            href="https://berkeley.edu"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button
-              variant="outline"
-              className="-translate-y-0.5 rounded-full py-0.5 align-middle text-xl text-foreground"
-            >
-              <img
-                src="/berkeley.png"
-                alt="Berkeley"
-                className="inline-block h-3.5 w-3"
-              />
-              UC Berkeley
-              <ArrowUpRightIcon className="inline-block size-3.5" />
-            </Button>
-          </a>{" "}
-          with a degree in Computer Science in three years.
-        </p>
-      </section>
-
+      {/* Writing */}
       <section
         id="writing"
-        className={cn(enterAnimation, "pt-16 motion-delay-500")}
+        className={cn(enterAnimation, "mt-20 motion-delay-[400ms]")}
       >
-        <p className="mb-6 font-mono text-xs leading-tight tracking-wide text-muted-foreground uppercase">
-          Writing
-        </p>
+        <h2 className="mb-5 font-serif text-2xl text-foreground">Writing</h2>
         <ul>
           {posts.map((post) => (
             <li key={post.slug}>
               <Link
                 to="/blog/$slug"
                 params={{ slug: post.slug }}
-                className="group flex items-baseline justify-between gap-4 border-t border-border py-3"
+                className="group flex items-baseline justify-between gap-4 border-t border-border py-3 last:border-b"
                 onClick={(e) => {
                   handleNavClick("/blog/$slug", { slug: post.slug }, e);
                 }}
               >
-                <span className="text-base text-foreground transition-colors group-hover:text-primary">
+                <span className="text-base text-muted-foreground transition-colors group-hover:text-foreground">
                   {post.title}
                 </span>
-                <span className="shrink-0 font-mono text-xs text-muted-foreground">
+                <span className="shrink-0 font-mono text-xs text-muted-foreground/70">
                   {formatPostDate(post.date)}
                 </span>
               </Link>
@@ -292,6 +208,6 @@ function RouteComponent() {
           ))}
         </ul>
       </section>
-    </section>
+    </div>
   );
 }
