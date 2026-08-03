@@ -24,7 +24,7 @@ import {
 import appCss from "../styles.css?url";
 
 const SITE_DESCRIPTION =
-  "Winston Purnomo is a software engineer in the San Francisco Bay Area — currently a Forward-Deployed Engineer on the AI team at Snowflake, previously at Meta and Apple.";
+  "Winston Purnomo is a Forward-Deployed Engineer on the AI team at Snowflake. Previously a Software Engineer at Meta and Apple, and a Y Combinator-backed co-founder.";
 
 export const Route = createRootRoute({
   head: () => ({

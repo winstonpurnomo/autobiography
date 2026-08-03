@@ -1,18 +1,8 @@
 # Plan 002: Fix off-by-one blog dates and restore modifier-click behavior on internal links
 
-> **Executor instructions**: Follow this plan step by step. Run every
-> verification command and confirm the expected result before moving to the
-> next step. If anything in the "STOP conditions" section occurs, stop and
-> report — do not improvise. When done, update the status row for this plan
-> in `plans/README.md` — unless a reviewer dispatched you and told you they
-> maintain the index.
+> **Executor instructions**: Follow this plan step by step. Run every verification command and confirm the expected result before moving to the next step. If anything in the "STOP conditions" section occurs, stop and report — do not improvise. When done, update the status row for this plan in `plans/README.md` — unless a reviewer dispatched you and told you they maintain the index.
 >
-> **Drift check (run first)**: `git diff --stat fba657a..HEAD -- src/lib/utils.ts src/routes/index.tsx src/routes/blog/$slug.tsx src/routes/__root.tsx`
-> If any in-scope file changed since this plan was written, compare the
-> "Current state" excerpts against the live code before proceeding; on a
-> mismatch, treat it as a STOP condition. (Plan 001 touches `__root.tsx` and
-> `$slug.tsx` for lint fixes — those diffs are expected; the excerpts below
-> are unaffected by them.)
+> **Drift check (run first)**: `git diff --stat fba657a..HEAD -- src/lib/utils.ts src/routes/index.tsx src/routes/blog/$slug.tsx src/routes/__root.tsx` If any in-scope file changed since this plan was written, compare the "Current state" excerpts against the live code before proceeding; on a mismatch, treat it as a STOP condition. (Plan 001 touches `__root.tsx` and `$slug.tsx` for lint fixes — those diffs are expected; the excerpts below are unaffected by them.)
 
 ## Status
 
@@ -30,6 +20,7 @@ Two user-visible correctness bugs. First: blog post dates are stored as ISO stri
 ## Current state
 
 - `src/lib/utils.ts` — shared helpers (`cn`, `enterAnimation`, `useNavTransition`). The buggy hook (lines 15–37):
+
   ```ts
   export function useNavTransition() {
     const navigate = useNavigate();
@@ -55,14 +46,18 @@ Two user-visible correctness bugs. First: blog post dates are stored as ISO stri
     };
   }
   ```
+
   The returned handler is attached to TanStack `<Link>` `onClick` in three places: `src/routes/__root.tsx:143` (header logo → `/`), `src/routes/index.tsx:275` (blog list → `/blog/$slug`), `src/routes/blog/$slug.tsx:47` (back link → `/`). TanStack `<Link>` renders a real `<a href>` and natively respects modifier clicks — it is only the unconditional `preventDefault` that breaks them.
+
 - `src/routes/index.tsx:283-287` — date rendering site 1:
   ```tsx
-  {new Date(post.date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  })}
+  {
+    new Date(post.date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  }
   ```
 - `src/routes/blog/$slug.tsx:63-67` — date rendering site 2 (same pattern, `month: "long"`).
 - Post dates in frontmatter are plain ISO day strings, e.g. `src/content/blog/the-language-id-build.mdx` has `date: "2025-07-26"`.
@@ -71,24 +66,26 @@ Two user-visible correctness bugs. First: blog post dates are stored as ISO stri
 
 ## Commands you will need
 
-| Purpose   | Command             | Expected on success |
-|-----------|---------------------|---------------------|
-| Typecheck | `bun run typecheck` | exit 0              |
-| Lint      | `bun run lint`      | exit 0              |
+| Purpose   | Command             | Expected on success  |
+| --------- | ------------------- | -------------------- |
+| Typecheck | `bun run typecheck` | exit 0               |
+| Lint      | `bun run lint`      | exit 0               |
 | Tests     | `bun run test`      | exit 0, 3 tests pass |
-| Format    | `bun run format`    | exit 0              |
+| Format    | `bun run format`    | exit 0               |
 
 (Gates are green at start only if plan 001 has landed — check `plans/README.md`.)
 
 ## Scope
 
 **In scope** (the only files you should modify):
+
 - `src/lib/utils.ts`
 - `src/lib/utils.test.ts` (create)
 - `src/routes/index.tsx`
 - `src/routes/blog/$slug.tsx`
 
 **Out of scope** (do NOT touch, even though they look related):
+
 - `src/routes/__root.tsx` — it uses `useNavTransition` but needs no edit; the fix lives inside the hook.
 - The `ThemeSelector` view-transition code in `__root.tsx` — different feature (theme switch, not navigation), not click-hijacking.
 - `src/content/blog/*.mdx` — the date strings themselves are correct.
@@ -130,8 +127,7 @@ export function formatPostDate(
 1. `src/routes/index.tsx` — import `formatPostDate` from `@/lib/utils` (extend the existing `cn, enterAnimation, useNavTransition` import) and replace the `new Date(post.date).toLocaleDateString(...)` expression (lines ~283–287) with `formatPostDate(post.date)`.
 2. `src/routes/blog/$slug.tsx` — same import extension; replace the expression at lines ~63–67 with `formatPostDate(post.frontmatter.date, "long")`.
 
-**Verify**: `grep -rn "toLocaleDateString" src/routes/` → no matches.
-`bun run typecheck` → exit 0.
+**Verify**: `grep -rn "toLocaleDateString" src/routes/` → no matches. `bun run typecheck` → exit 0.
 
 ### Step 3: Respect modifier clicks in `useNavTransition`
 
@@ -181,8 +177,7 @@ describe("formatPostDate", () => {
 
 Note: `utils.ts` imports `useNavigate` from `@tanstack/react-router` at module top; importing the module in a test is fine (the hook is never called).
 
-**Verify**: `bun run test` → exit 0, 3 tests pass. See STOP conditions if the
-pre-existing `ReferenceError: module is not defined` blocks the run.
+**Verify**: `bun run test` → exit 0, 3 tests pass. See STOP conditions if the pre-existing `ReferenceError: module is not defined` blocks the run.
 
 ### Step 5: Format and final check
 
@@ -192,11 +187,8 @@ Run `bun run format`, re-run all three gates.
 
 ## Test plan
 
-- New file `src/lib/utils.test.ts` (created in Step 4): three cases — the exact
-  regression this plan fixes (a date that shifts in US timezones), the long-month
-  variant used on the post page, and a year-boundary date.
-- No existing test to model after — this is the repo's first test file; the
-  structure above is the pattern.
+- New file `src/lib/utils.test.ts` (created in Step 4): three cases — the exact regression this plan fixes (a date that shifts in US timezones), the long-month variant used on the post page, and a year-boundary date.
+- No existing test to model after — this is the repo's first test file; the structure above is the pattern.
 - Verification: `bun run test` → 3 passing tests.
 
 ## Done criteria
@@ -217,23 +209,12 @@ Stop and report back (do not improvise) if:
 
 - Plan 001 has not landed (gates are red before you start).
 - The code at the locations in "Current state" doesn't match the excerpts.
-- `bun run test` fails with the pre-existing `ReferenceError: module is not
-  defined` (or any error not caused by your test's assertions) even though the
-  test file exists. In that case: keep Steps 1–3, delete nothing, and report
-  that test infra needs its own fix — do NOT attempt to repair the vitest/vite
-  plugin chain, and do NOT modify `vite.config.ts`.
-- The date assertions fail with a one-day offset **in UTC** (would mean the
-  `timeZone: "UTC"` assumption is wrong — report actual output).
+- `bun run test` fails with the pre-existing `ReferenceError: module is not defined` (or any error not caused by your test's assertions) even though the test file exists. In that case: keep Steps 1–3, delete nothing, and report that test infra needs its own fix — do NOT attempt to repair the vitest/vite plugin chain, and do NOT modify `vite.config.ts`.
+- The date assertions fail with a one-day offset **in UTC** (would mean the `timeZone: "UTC"` assumption is wrong — report actual output).
 
 ## Maintenance notes
 
-- All future date rendering should go through `formatPostDate`; adding another
-  raw `new Date(x).toLocaleDateString(...)` reintroduces the bug. A reviewer
-  should grep for `toLocaleDateString` in new code.
-- If posts ever gain time-of-day precision (full ISO timestamps), the
-  `timeZone: "UTC"` choice must be revisited.
-- The modifier-click guard assumes handlers are attached to TanStack `<Link>`
-  elements (real anchors). If `useNavTransition` is ever used on a non-anchor
-  element, early-returning will make those clicks do nothing.
-- Deferred: the `ReferenceError` in the bare vitest run predates this plan and
-  is out of scope here.
+- All future date rendering should go through `formatPostDate`; adding another raw `new Date(x).toLocaleDateString(...)` reintroduces the bug. A reviewer should grep for `toLocaleDateString` in new code.
+- If posts ever gain time-of-day precision (full ISO timestamps), the `timeZone: "UTC"` choice must be revisited.
+- The modifier-click guard assumes handlers are attached to TanStack `<Link>` elements (real anchors). If `useNavTransition` is ever used on a non-anchor element, early-returning will make those clicks do nothing.
+- Deferred: the `ReferenceError` in the bare vitest run predates this plan and is out of scope here.

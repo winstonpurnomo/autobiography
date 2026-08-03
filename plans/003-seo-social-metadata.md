@@ -1,17 +1,8 @@
 # Plan 003: Add SEO and social-sharing metadata (site-wide and per-post)
 
-> **Executor instructions**: Follow this plan step by step. Run every
-> verification command and confirm the expected result before moving to the
-> next step. If anything in the "STOP conditions" section occurs, stop and
-> report — do not improvise. When done, update the status row for this plan
-> in `plans/README.md` — unless a reviewer dispatched you and told you they
-> maintain the index.
+> **Executor instructions**: Follow this plan step by step. Run every verification command and confirm the expected result before moving to the next step. If anything in the "STOP conditions" section occurs, stop and report — do not improvise. When done, update the status row for this plan in `plans/README.md` — unless a reviewer dispatched you and told you they maintain the index.
 >
-> **Drift check (run first)**: `git diff --stat fba657a..HEAD -- src/routes/__root.tsx src/routes/blog/$slug.tsx src/routes/index.tsx src/content/blog`
-> Plans 001 and 002 legitimately touch `__root.tsx`, `$slug.tsx`, and
-> `index.tsx` (lint fixes, date helper). Compare the "Current state" excerpts
-> below against the live code; proceed if the head/meta and frontmatter
-> structures still match, STOP on structural mismatch.
+> **Drift check (run first)**: `git diff --stat fba657a..HEAD -- src/routes/__root.tsx src/routes/blog/$slug.tsx src/routes/index.tsx src/content/blog` Plans 001 and 002 legitimately touch `__root.tsx`, `$slug.tsx`, and `index.tsx` (lint fixes, date helper). Compare the "Current state" excerpts below against the live code; proceed if the head/meta and frontmatter structures still match, STOP on structural mismatch.
 
 ## Status
 
@@ -75,17 +66,18 @@ This is a personal site whose whole purpose is being found and shared, yet it sh
 
 ## Commands you will need
 
-| Purpose   | Command             | Expected on success |
-|-----------|---------------------|---------------------|
-| Typecheck | `bun run typecheck` | exit 0              |
-| Lint      | `bun run lint`      | exit 0              |
-| Tests     | `bun run test`      | same result as before this plan |
-| Build     | `bun run build`     | exit 0              |
+| Purpose   | Command                        | Expected on success             |
+| --------- | ------------------------------ | ------------------------------- |
+| Typecheck | `bun run typecheck`            | exit 0                          |
+| Lint      | `bun run lint`                 | exit 0                          |
+| Tests     | `bun run test`                 | same result as before this plan |
+| Build     | `bun run build`                | exit 0                          |
 | Preview   | `bun run preview` (background) | serves on http://127.0.0.1:3000 |
 
 ## Scope
 
 **In scope** (the only files you should modify):
+
 - `src/routes/__root.tsx` (head config only)
 - `src/routes/blog/$slug.tsx`
 - `src/routes/index.tsx` (only if the shared `PostMeta` type is extracted — see Step 3)
@@ -94,6 +86,7 @@ This is a personal site whose whole purpose is being found and shared, yet it sh
 - `src/lib/utils.ts` (only if extracting `PostMeta` there)
 
 **Out of scope** (do NOT touch, even though they look related):
+
 - Creating an OG image, RSS feed, or sitemap — separate direction items.
 - MDX body content — frontmatter blocks only.
 - `public/manifest.json` — link it, don't edit it.
@@ -201,13 +194,9 @@ export const Route = createFileRoute("/blog/$slug")({
 });
 ```
 
-(If plan 001 already placed the `only-throw-error` suppression on the old
-loader line, carry it over as shown.) The component keeps using
-`getPost(slug)!` — no component changes required.
+(If plan 001 already placed the `only-throw-error` suppression on the old loader line, carry it over as shown.) The component keeps using `getPost(slug)!` — no component changes required.
 
-If `head` in this TanStack Start version does not receive `loaderData`
-(typecheck error on the destructure), STOP and report the actual `head`
-context type rather than guessing.
+If `head` in this TanStack Start version does not receive `loaderData` (typecheck error on the destructure), STOP and report the actual `head` context type rather than guessing.
 
 **Verify**: `bun run typecheck` → exit 0; `bun run lint` → exit 0.
 
@@ -222,17 +211,11 @@ curl -s http://127.0.0.1:3000/blog/welcome-to-my-blog | grep -o '<title>[^<]*</t
 kill %1
 ```
 
-**Verify**: first grep prints `name="description"`; second prints
-`<title>Welcome to my blog — Winston Purnomo</title>`. If the preview server
-binds a different port, read the port from its startup output and retry once;
-if SSR HTML contains no head tags at all, STOP and report.
+**Verify**: first grep prints `name="description"`; second prints `<title>Welcome to my blog — Winston Purnomo</title>`. If the preview server binds a different port, read the port from its startup output and retry once; if SSR HTML contains no head tags at all, STOP and report.
 
 ## Test plan
 
-No unit tests for meta tags (they'd test the framework). The end-to-end check
-in Step 4 is the test: SSR HTML for `/` contains the description meta, and a
-post page carries its own title. Run `bun run test` once at the end to confirm
-the suite (from plan 002, if landed) still passes.
+No unit tests for meta tags (they'd test the framework). The end-to-end check in Step 4 is the test: SSR HTML for `/` contains the description meta, and a post page carries its own title. Run `bun run test` once at the end to confirm the suite (from plan 002, if landed) still passes.
 
 ## Done criteria
 
@@ -253,20 +236,12 @@ Stop and report back (do not improvise) if:
 
 - Plan 001 has not landed (gates red at start).
 - The `head` option's context does not provide `loaderData` (Step 3).
-- SSR output in Step 4 contains no `<head>` content (would mean the app isn't
-  server-rendering heads; the approach needs rethinking, not patching).
-- You feel the need to hardcode a production domain anywhere — that decision
-  belongs to the owner.
+- SSR output in Step 4 contains no `<head>` content (would mean the app isn't server-rendering heads; the approach needs rethinking, not patching).
+- You feel the need to hardcode a production domain anywhere — that decision belongs to the owner.
 
 ## Maintenance notes
 
-- **Deferred: og:image.** No social-card image exists (`public/meta.png` is the
-  Meta company logo — never use it for this). When the owner creates one
-  (1200×630 PNG, e.g. `public/og.png`), add `og:image` / `twitter:image` tags
-  and switch `twitter:card` to `summary_large_image`.
-- **Deferred: canonical/og:url** until the production domain is recorded in the
-  repo (suggest an env var or a constant in `__root.tsx` when it is).
-- New blog posts must include a `description:` frontmatter field; the post head
-  renders it directly. Reviewer should check any new `.mdx` for it.
-- If an RSS feed/sitemap is added later (direction item), reuse the frontmatter
-  descriptions added here.
+- **Deferred: og:image.** No social-card image exists (`public/meta.png` is the Meta company logo — never use it for this). When the owner creates one (1200×630 PNG, e.g. `public/og.png`), add `og:image` / `twitter:image` tags and switch `twitter:card` to `summary_large_image`.
+- **Deferred: canonical/og:url** until the production domain is recorded in the repo (suggest an env var or a constant in `__root.tsx` when it is).
+- New blog posts must include a `description:` frontmatter field; the post head renders it directly. Reviewer should check any new `.mdx` for it.
+- If an RSS feed/sitemap is added later (direction item), reuse the frontmatter descriptions added here.

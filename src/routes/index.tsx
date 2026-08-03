@@ -92,91 +92,119 @@ function RouteComponent() {
       </h1>
 
       {/* Bio */}
-      <p
+      <div
         className={cn(
           enterAnimation,
-          "max-w-xl text-lg leading-loose text-pretty text-muted-foreground motion-delay-200"
+          "flex max-w-xl flex-col gap-4 text-lg leading-loose text-pretty text-muted-foreground motion-delay-200"
         )}
       >
-        Software engineer based in the San Francisco Bay Area. Currently a
-        Forward-Deployed Engineer on the AI team at{" "}
-        <Chip
-          href="https://snowflake.com"
-          icon="/snowflake-color.svg"
-          iconAlt="Snowflake"
-        >
-          Snowflake
-        </Chip>
-        . Previously shipped ads infrastructure at{" "}
-        <Chip
-          href="https://meta.com"
-          icon="/meta.png"
-          iconAlt="Meta"
-          iconClassName="h-3 w-4"
-        >
-          Meta
-        </Chip>
-        , built the software stack that talks to the radios on the{" "}
-        <Chip
-          href="https://apple.com"
-          icon="/apple.svg"
-          iconAlt="Apple"
-          iconClassName="h-3.5 w-3"
-        >
-          Apple
-        </Chip>{" "}
-        Pay team, and co-founded a{" "}
-        <Chip
-          href="https://ycombinator.com"
-          icon="/yc.svg"
-          iconAlt="Y Combinator"
-          iconClassName="h-3 w-4"
-        >
-          Y Combinator
-        </Chip>{" "}
-        company,{" "}
-        <Chip
-          href="https://wavelength.cx"
-          icon="/wavelength.png"
-          iconAlt="Wavelength"
-          iconClassName="h-3 w-4"
-        >
-          Wavelength
-        </Chip>
-        . Studied Computer Science at{" "}
-        <Chip
-          href="https://berkeley.edu"
-          icon="/berkeley.png"
-          iconAlt="Berkeley"
-          iconClassName="h-3.5 w-3"
-        >
-          UC Berkeley
-        </Chip>{" "}
-        , done in three years.
-      </p>
+        <p>
+          Currently, I work at{" "}
+          <Chip
+            href="https://snowflake.com"
+            icon="/snowflake-color.svg"
+            iconAlt="Snowflake"
+          >
+            Snowflake
+          </Chip>{" "}
+          as a Forward-Deployed Engineer on the AI team.
+        </p>
+        <p>
+          Previously, I worked at{" "}
+          <Chip
+            href="https://meta.com"
+            icon="/meta.png"
+            iconAlt="Meta"
+            iconClassName="h-3 w-4"
+          >
+            Meta
+          </Chip>{" "}
+          as a Software Engineer on the Click to WhatsApp Ads team. I helped
+          ship features that empower small business all around the world to
+          reach their customers where they already are.
+        </p>
+        <p>
+          Before that, I was a co-founder of a{" "}
+          <Chip
+            href="https://ycombinator.com"
+            icon="/yc.svg"
+            iconAlt="Y Combinator"
+            iconClassName="h-3 w-4"
+          >
+            Y Combinator
+          </Chip>{" "}
+          portfolio company,{" "}
+          <Chip
+            href="https://wavelength.cx"
+            icon="/wavelength.png"
+            iconAlt="Wavelength"
+            iconClassName="h-3 w-4"
+          >
+            Wavelength
+          </Chip>
+          , where we built the AI-native customer success platform.
+        </p>
+        <p>
+          Prior to that, I was a software engineer at{" "}
+          <Chip
+            href="https://apple.com"
+            icon="/apple.svg"
+            iconAlt="Apple"
+            iconClassName="h-3.5 w-3"
+          >
+            Apple
+          </Chip>{" "}
+          on the Apple Pay team. Our team built the software stack on iOS that
+          talked to the radios.
+        </p>
+        <p>
+          I graduated from{" "}
+          <Chip
+            href="https://berkeley.edu"
+            icon="/berkeley.png"
+            iconAlt="Berkeley"
+            iconClassName="h-3.5 w-3"
+          >
+            UC Berkeley
+          </Chip>{" "}
+          with a degree in Computer Science in three years.
+        </p>
+      </div>
 
       {/* Links */}
       <div
         className={cn(
           enterAnimation,
-          "mt-6 flex items-center gap-5 text-sm text-muted-foreground motion-delay-300"
+          "mt-6 flex items-center gap-6 text-lg motion-delay-300"
         )}
       >
         <a
           href="https://github.com/winstonpurnomo"
           target="_blank"
           rel="noopener noreferrer"
-          className="transition-colors hover:text-foreground"
+          className="group inline-flex items-center gap-1 font-medium text-foreground underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-foreground/60"
         >
+          <img
+            src="/github.svg"
+            alt="GitHub"
+            className="inline-block h-4 w-4 dark:invert"
+          />
           GitHub
+          <ArrowUpRightIcon className="inline-block size-3 text-muted-foreground/50 transition-colors group-hover:text-muted-foreground" />
         </a>
         <a
           href="https://linkedin.com/in/wpurnomo"
           target="_blank"
           rel="noopener noreferrer"
-          className="transition-colors hover:text-foreground"
+          className="group inline-flex items-center gap-1 font-medium text-foreground underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-foreground/60"
         >
+          <img
+            src="/linkedin.png"
+            alt="LinkedIn"
+            className="inline-block h-4 w-4 object-contain"
+          />
           LinkedIn
+          <ArrowUpRightIcon className="inline-block size-3 text-muted-foreground/50 transition-colors group-hover:text-muted-foreground" />
         </a>
       </div>
 

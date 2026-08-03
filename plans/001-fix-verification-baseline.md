@@ -1,16 +1,8 @@
 # Plan 001: Make typecheck and lint pass so every later change is verifiable
 
-> **Executor instructions**: Follow this plan step by step. Run every
-> verification command and confirm the expected result before moving to the
-> next step. If anything in the "STOP conditions" section occurs, stop and
-> report — do not improvise. When done, update the status row for this plan
-> in `plans/README.md` — unless a reviewer dispatched you and told you they
-> maintain the index.
+> **Executor instructions**: Follow this plan step by step. Run every verification command and confirm the expected result before moving to the next step. If anything in the "STOP conditions" section occurs, stop and report — do not improvise. When done, update the status row for this plan in `plans/README.md` — unless a reviewer dispatched you and told you they maintain the index.
 >
-> **Drift check (run first)**: `git diff --stat fba657a..HEAD -- tsconfig.json vite.config.ts src/routes src/components src/hooks src/lib`
-> If any in-scope file changed since this plan was written, compare the
-> "Current state" excerpts against the live code before proceeding; on a
-> mismatch, treat it as a STOP condition.
+> **Drift check (run first)**: `git diff --stat fba657a..HEAD -- tsconfig.json vite.config.ts src/routes src/components src/hooks src/lib` If any in-scope file changed since this plan was written, compare the "Current state" excerpts against the live code before proceeding; on a mismatch, treat it as a STOP condition.
 
 ## Status
 
@@ -54,25 +46,24 @@ Both verification gates in this repo are currently red: `bun run typecheck` fail
   - `src/components/ui/scroll-area.tsx:2` — `import * as React from "react";` is unused (TS6133).
   - `src/components/ui/calendar.tsx:88` — `table: "w-full border-collapse",` inside the `classNames` object; react-day-picker v10's `ClassNames` type has no `table` key — the equivalent key is `month_grid` (verified in `node_modules/react-day-picker/dist/cjs/UI.d.ts:30`, `MonthGrid = "month_grid"`).
   - `src/components/ui/drawer.tsx:343` — passes `scrollFade={scrollFade}` to the local `ScrollArea`, whose props are `ScrollAreaPrimitive.Root.Props` (see `src/components/ui/scroll-area.tsx:6-10`) and do not include `scrollFade`. The prop is therefore already a no-op. `scrollFade` appears only inside `drawer.tsx` (destructured with default at line 316, declared in the props type at line 322, used at line 343) — no other file references it (`grep -rn scrollFade src` returns only those three lines).
-- Repo conventions: oxlint suppressions use comments like the existing
-  `// oxlint-disable-next-line typescript/no-non-null-assertion` at
-  `src/routes/blog/$slug.tsx:38`. Match that style.
+- Repo conventions: oxlint suppressions use comments like the existing `// oxlint-disable-next-line typescript/no-non-null-assertion` at `src/routes/blog/$slug.tsx:38`. Match that style.
 - The repo owner's standing instruction: **do not fix lint warnings inside `src/components/ui/`** — that is why Step 3 excludes the directory from lint rather than fixing 79 errors. The three edits in Step 2 are type errors breaking the gate, the only sanctioned touches in that directory.
 
 ## Commands you will need
 
-| Purpose   | Command             | Expected on success |
-|-----------|---------------------|---------------------|
+| Purpose   | Command             | Expected on success        |
+| --------- | ------------------- | -------------------------- |
 | Install   | `bun install`       | exit 0 (should be a no-op) |
-| Typecheck | `bun run typecheck` | exit 0, no errors   |
-| Lint      | `bun run lint`      | exit 0              |
-| Format    | `bun run format`    | exit 0              |
+| Typecheck | `bun run typecheck` | exit 0, no errors          |
+| Lint      | `bun run lint`      | exit 0                     |
+| Format    | `bun run format`    | exit 0                     |
 
 There is no test suite yet (`bun run test` reports "No test files found" — expected; do not try to fix that here).
 
 ## Scope
 
 **In scope** (the only files you should modify):
+
 - `tsconfig.json`
 - `vite.config.ts`
 - `src/components/ui/scroll-area.tsx` (one deletion)
@@ -85,6 +76,7 @@ There is no test suite yet (`bun run test` reports "No test files found" — exp
 - `src/hooks/use-mobile.ts`
 
 **Out of scope** (do NOT touch, even though they look related):
+
 - Every other file under `src/components/ui/` — vendored shadcn code; the owner has said not to clean it up.
 - `oxlint.config.ts` / `oxfmt.config.ts` — legacy standalone configs; lint runs through `vite.config.ts`.
 - `src/routeTree.gen.ts` — generated.
@@ -115,22 +107,13 @@ to:
 
 Leave `"target": "ES2022"` unchanged.
 
-**Verify**: `bun run typecheck` → exactly 3 errors remain, all in
-`src/components/ui/` (scroll-area.tsx TS6133, calendar.tsx TS2353,
-drawer.tsx TS2322). The `src/routes/index.tsx` errors are gone.
+**Verify**: `bun run typecheck` → exactly 3 errors remain, all in `src/components/ui/` (scroll-area.tsx TS6133, calendar.tsx TS2353, drawer.tsx TS2322). The `src/routes/index.tsx` errors are gone.
 
 ### Step 2: Fix the three shadcn type errors (minimal edits only)
 
-1. `src/components/ui/scroll-area.tsx` — delete line 2
-   (`import * as React from "react";`).
-2. `src/components/ui/calendar.tsx:88` — rename the object key `table` to
-   `month_grid` (keep the value `"w-full border-collapse"`).
-3. `src/components/ui/drawer.tsx` — remove the `scrollFade` prop entirely:
-   delete `scrollFade = true,` from the destructuring (~line 316), delete
-   `scrollFade?: boolean;` from the props type (~line 322), and change
-   `<ScrollArea className="touch-auto" scrollFade={scrollFade}>` (~line 343)
-   to `<ScrollArea className="touch-auto">`. This is behavior-preserving:
-   `ScrollArea` never accepted the prop, so it was already inert.
+1. `src/components/ui/scroll-area.tsx` — delete line 2 (`import * as React from "react";`).
+2. `src/components/ui/calendar.tsx:88` — rename the object key `table` to `month_grid` (keep the value `"w-full border-collapse"`).
+3. `src/components/ui/drawer.tsx` — remove the `scrollFade` prop entirely: delete `scrollFade = true,` from the destructuring (~line 316), delete `scrollFade?: boolean;` from the props type (~line 322), and change `<ScrollArea className="touch-auto" scrollFade={scrollFade}>` (~line 343) to `<ScrollArea className="touch-auto">`. This is behavior-preserving: `ScrollArea` never accepted the prop, so it was already inert.
 
 **Verify**: `bun run typecheck` → exit 0, no errors.
 
@@ -150,10 +133,7 @@ ignorePatterns: [...core.ignorePatterns, "src/components/ui/**"],
 
 If `core.ignorePatterns` turns out not to be spreadable (not an array), STOP and report its actual shape instead of guessing.
 
-**Verify**: `bun run lint 2>&1 | grep -c 'components/ui/'` → `0`.
-Remaining lint errors should be confined to `src/components/mdx-components.tsx`,
-`src/routes/__root.tsx`, `src/routes/blog/$slug.tsx`, and
-`src/hooks/use-mobile.ts` (plus possibly `src/routes/index.tsx`).
+**Verify**: `bun run lint 2>&1 | grep -c 'components/ui/'` → `0`. Remaining lint errors should be confined to `src/components/mdx-components.tsx`, `src/routes/__root.tsx`, `src/routes/blog/$slug.tsx`, and `src/hooks/use-mobile.ts` (plus possibly `src/routes/index.tsx`).
 
 ### Step 4: Fix the remaining app-code lint errors
 
@@ -187,16 +167,11 @@ If errors remain in `src/routes/index.tsx` after Step 1's lib bump (they should 
 
 Run `bun run format`, then re-run both gates.
 
-**Verify**: `bun run typecheck` → exit 0; `bun run lint` → exit 0;
-`git status` shows only in-scope files modified.
+**Verify**: `bun run typecheck` → exit 0; `bun run lint` → exit 0; `git status` shows only in-scope files modified.
 
 ## Test plan
 
-No test suite exists in this repo yet (plan 002 introduces the first test).
-Verification for this plan is the two gates going green, plus a manual smoke
-check if you can run the dev server: `bun x vp dev` and load `/` — the page
-renders, theme switcher works. If the dev server cannot start in your
-environment, the two green gates are sufficient; note that in your report.
+No test suite exists in this repo yet (plan 002 introduces the first test). Verification for this plan is the two gates going green, plus a manual smoke check if you can run the dev server: `bun x vp dev` and load `/` — the page renders, theme switcher works. If the dev server cannot start in your environment, the two green gates are sufficient; note that in your report.
 
 ## Done criteria
 
@@ -215,22 +190,14 @@ Machine-checkable. ALL must hold:
 Stop and report back (do not improvise) if:
 
 - The code at the locations in "Current state" doesn't match the excerpts.
-- After Step 1, `bun run typecheck` reports errors in files other than the
-  three named shadcn files.
+- After Step 1, `bun run typecheck` reports errors in files other than the three named shadcn files.
 - `core.ignorePatterns` in Step 3 is not an array or the spread fails.
-- After Step 4, lint reports errors not on this plan's list and their fix is
-  not a one-liner stated in the error's help text, or more than 5 unlisted
-  errors appear.
-- Fixing anything appears to require editing shadcn files beyond the three
-  named edits in Step 2.
+- After Step 4, lint reports errors not on this plan's list and their fix is not a one-liner stated in the error's help text, or more than 5 unlisted errors appear.
+- Fixing anything appears to require editing shadcn files beyond the three named edits in Step 2.
 
 ## Maintenance notes
 
-- `src/components/ui/**` is now lint-ignored but still type-checked. When
-  shadcn components are re-generated/updated, new type errors may appear;
-  the convention is minimal type-level fixes only, no lint cleanup.
-- The `month_grid` rename in calendar.tsx tracks react-day-picker's v9+ key
-  names; if react-day-picker is upgraded again, re-check the `ClassNames` keys.
+- `src/components/ui/**` is now lint-ignored but still type-checked. When shadcn components are re-generated/updated, new type errors may appear; the convention is minimal type-level fixes only, no lint cleanup.
+- The `month_grid` rename in calendar.tsx tracks react-day-picker's v9+ key names; if react-day-picker is upgraded again, re-check the `ClassNames` keys.
 - Plans 002–004 assume both gates are green; they must not land before this.
-- Reviewer focus: confirm the drawer still scrolls correctly on mobile
-  (the removed `scrollFade` prop was inert, so no visual change is expected).
+- Reviewer focus: confirm the drawer still scrolls correctly on mobile (the removed `scrollFade` prop was inert, so no visual change is expected).
