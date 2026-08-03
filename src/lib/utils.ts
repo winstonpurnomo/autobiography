@@ -9,8 +9,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // Staggered page-enter animation: pair with a motion-delay-* class per chunk.
+// No motion-blur-in here: it leaves a `filter` on the element, which keeps it on
+// its own compositing layer and permanently soft-rasterizes text on mobile.
 export const enterAnimation =
-  "motion-translate-y-in-[12px] motion-opacity-in-0 motion-blur-in-[4px] motion-duration-500 motion-ease-spring-smooth";
+  "motion-translate-y-in-[12px] motion-opacity-in-0 motion-duration-500 motion-ease-spring-smooth";
 
 // Post dates are day-precision ISO strings ("2025-07-26"); format in UTC so
 // the rendered day never shifts with the visitor's timezone.
